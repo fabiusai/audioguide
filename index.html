@@ -214,8 +214,8 @@
                 this.renderCatalog(catalog);
                 this.fetchGuide(catalog[Math.floor(Math.random()*catalog.length)].url);
             } catch (e) {
-                // Demo fallback
-                this.renderGuide({ title: "Demo", mp3File: "", tracks: [{ id: 1, title: "Il David", author: "Michelangelo", room: "Tribuna", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }] });
+                // Fallback su GitHub se index.json non raggiungibile
+                this.fetchGuide('https://fabiusai.github.io/audioguide/Galleria_Accademia.json');
             }
         },
 
@@ -242,6 +242,7 @@
             this.currentData = data;
             this.player.src = data.mp3File;
             const container = document.getElementById('trackList');
+            const placeholderImg = "https://via.placeholder.com/800x1200/e5e5ea/8e8e93?text=Nessuna+Immagine";
             
             // Raggruppa le tracce per sala
             const rooms = {};
@@ -259,7 +260,7 @@
                         <div class="track-card" id="track-${t.id}">
                             <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
                             <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
-                                <img src="${this.getFreshUrl(t.image)}" class="track-img" onerror="this.src='https://via.placeholder.com/800x1200?text=Immagine'">
+                                <img src="${t.image ? this.getFreshUrl(t.image) : placeholderImg}" class="track-img" onerror="this.src='${placeholderImg}'">
                             </div>
                             <div class="track-content" onclick="window.app.playTrack(${t.id})">
                                 <div class="track-info-text">
