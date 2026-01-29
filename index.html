@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Audioguida Pro - Musei</title>
+    <title>Audioguide AI Pro</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="audioguide.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -30,7 +32,7 @@
         }
         h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
 
-        /* Stili per le Sale (Nuovi) */
+        /* Nuovi stili per le Sale del Museo */
         .room-section { margin-top: 30px; padding: 0 16px; }
         .room-header { 
             font-size: 0.85rem; font-weight: 800; color: var(--primary-apple);
@@ -51,10 +53,9 @@
             padding: 12px 16px; flex-grow: 1; display: flex; 
             flex-direction: column; justify-content: space-between;
         }
-        .track-title { font-size: 17px; font-weight: 600; margin: 0; margin-bottom: 2px; }
+        .track-title { font-size: 17px; font-weight: 600; margin: 0; }
         
-        .track-meta { display: flex; justify-content: space-between; align-items: flex-end; }
-        .author-info { display: flex; flex-direction: column; gap: 2px; }
+        .author-info { display: flex; flex-direction: column; gap: 4px; }
         .track-author { font-size: 14px; color: var(--text-medium); }
         .badge-room { 
             font-size: 0.65rem; background: #e5e5ea; padding: 2px 6px; 
@@ -62,7 +63,7 @@
         }
         .track-duration { font-size: 13px; color: var(--text-light); font-variant-numeric: tabular-nums; }
 
-        /* Player fisso */
+        /* Player Bar */
         .player-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
@@ -71,7 +72,7 @@
         audio { width: 100%; height: 40px; margin-bottom: 10px; }
         .now-playing { font-size: 14px; font-weight: 600; text-align: center; margin-bottom: 8px; }
 
-        /* Modali ed Editor */
+        /* Modali */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.5);
             display: none; align-items: center; justify-content: center; z-index: 1000;
@@ -81,16 +82,9 @@
             background: white; width: 90%; max-width: 500px; padding: 25px;
             border-radius: 20px; max-height: 80vh; overflow-y: auto;
         }
-        input, textarea { 
-            width: 100%; padding: 12px; margin: 10px 0; 
-            border: 1px solid #ddd; border-radius: 10px; font-size: 16px;
-        }
-        .btn { 
-            padding: 12px 20px; border-radius: 12px; border: none; 
-            font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; }
+        .btn { padding: 12px 20px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
         .btn-primary { background: var(--primary-apple); color: white; width: 100%; }
-        .btn-icon { background: none; border: none; color: var(--primary-apple); font-size: 1.2rem; }
         
         .admin-controls { display: flex; gap: 10px; padding: 10px 20px; background: #eee; }
         .edit-mode-only { display: none; }
@@ -102,45 +96,44 @@
 <header>
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1 id="guideTitle">Carica Guida...</h1>
-        <button class="btn-icon" onclick="window.app.toggleAdmin()"><i class="fas fa-cog"></i></button>
+        <button class="btn-icon" style="background:none; border:none; color:var(--primary-apple); font-size:1.2rem;" onclick="window.app.toggleAdmin()"><i class="fas fa-cog"></i></button>
     </div>
 </header>
 
 <div class="admin-controls edit-mode-only">
     <button class="btn" onclick="document.getElementById('fileInput').click()">Carica JSON</button>
-    <button class="btn" onclick="window.app.toggleModal('promptModal')">Generatore Prompt</button>
+    <button class="btn" onclick="window.app.toggleModal('promptModal')">Prompt AI</button>
     <button class="btn" onclick="window.app.downloadJson()">Esporta</button>
     <input type="file" id="fileInput" hidden accept=".json" onchange="window.app.loadJson(event)">
 </div>
 
-<div id="trackList">
-    </div>
+<div id="trackList"></div>
 
 <div class="player-bar">
-    <div class="now-playing" id="nowPlaying">Seleziona una traccia</div>
+    <div class="now-playing" id="nowPlaying">In attesa...</div>
     <audio id="mainPlayer" controls></audio>
 </div>
 
 <div id="promptModal" class="modal-overlay">
     <div class="modal-content">
-        <h3>Generatore Prompt AI</h3>
-        <input type="text" id="pTitle" placeholder="Titolo Museo (es. Galleria Accademia)">
-        <textarea id="pTranscript" rows="6" placeholder="Incolla qui la trascrizione dell'audio..."></textarea>
-        <button class="btn btn-primary" onclick="window.app.generatePrompt()">Copia Prompt Potenziato</button>
-        <button class="btn" onclick="window.app.toggleModal('promptModal')">Chiudi</button>
+        <h3>Generatore Prompt per AI</h3>
+        <input type="text" id="pTitle" placeholder="Titolo Museo">
+        <textarea id="pTranscript" rows="5" placeholder="Incolla trascrizione..."></textarea>
+        <button class="btn btn-primary" onclick="window.app.generatePrompt()">Copia Prompt con Sale</button>
+        <button class="btn" onclick="window.app.closeModals()">Chiudi</button>
     </div>
 </div>
 
 <div id="editModal" class="modal-overlay">
     <div class="modal-content">
-        <h3>Modifica Traccia</h3>
+        <h3>Modifica Opera</h3>
         <input type="hidden" id="editId">
-        <label>Titolo Opera</label><input type="text" id="editTitle">
+        <label>Titolo</label><input type="text" id="editTitle">
         <label>Autore</label><input type="text" id="editAuthor">
-        <label>Sala/Area (Nuovo)</label><input type="text" id="editRoom" placeholder="es. Sala del Colosso">
+        <label>Sala</label><input type="text" id="editRoom">
         <label>URL Immagine</label><input type="text" id="editImg">
-        <button class="btn btn-primary" onclick="window.app.saveTrack()">Salva Modifiche</button>
-        <button class="btn" onclick="window.app.toggleModal('editModal')">Annulla</button>
+        <button class="btn btn-primary" onclick="window.app.saveTrack()">Salva</button>
+        <button class="btn" onclick="window.app.closeModals()">Annulla</button>
     </div>
 </div>
 
@@ -149,18 +142,14 @@
         currentData: null,
         player: document.getElementById('mainPlayer'),
 
-        toggleAdmin: function() {
-            document.body.classList.toggle('edit-mode');
-        },
-
-        toggleModal: function(id) {
-            document.getElementById(id).classList.toggle('active');
-        },
+        toggleAdmin: function() { document.body.classList.toggle('edit-mode'); },
+        toggleModal: function(id) { document.getElementById(id).classList.add('active'); },
+        closeModals: function() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
 
         loadJson: function(e) {
             const reader = new FileReader();
-            reader.onload = (event) => {
-                this.currentData = JSON.parse(event.target.result);
+            reader.onload = (ev) => {
+                this.currentData = JSON.parse(ev.target.result);
                 this.renderGuide(this.currentData);
             };
             reader.readAsText(e.target.files[0]);
@@ -171,12 +160,12 @@
             this.player.src = data.mp3File;
             const container = document.getElementById('trackList');
             
-            // Raggruppamento tracce per sala
+            // Raggruppamento per Sala
             const rooms = {};
             data.tracks.forEach(t => {
-                const roomName = t.room || "Percorso Generale";
-                if (!rooms[roomName]) rooms[roomName] = [];
-                rooms[roomName].push(t);
+                const r = t.room || "Percorso Generale";
+                if (!rooms[r]) rooms[r] = [];
+                rooms[r].push(t);
             });
 
             container.innerHTML = Object.keys(rooms).map(roomName => `
@@ -185,21 +174,19 @@
                     <div class="track-list">
                         ${rooms[roomName].map(t => `
                             <div class="track-card" id="track-${t.id}">
-                                <button class="btn-icon edit-mode-only" style="position:absolute; top:8px; right:8px; z-index:10; background:white; border-radius:50%; width:30px; height:30px; font-size:0.8rem; box-shadow:0 2px 5px rgba(0,0,0,0.1);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
+                                <button class="edit-mode-only" style="position:absolute; top:8px; right:8px; z-index:10; border:none; background:white; border-radius:50%; width:28px; height:28px; box-shadow:0 2px 5px rgba(0,0,0,0.1);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen" style="font-size:0.7rem; color:var(--primary-apple);"></i></button>
                                 <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
                                     <img src="${t.image}" class="track-img" onerror="this.src='https://via.placeholder.com/200x200?text=Immagine'">
                                 </div>
                                 <div class="track-content" onclick="window.app.playTrack(${t.id})">
-                                    <div class="track-info-text">
+                                    <div>
                                         <p class="track-title">${t.title}</p>
                                         <div class="author-info">
-                                            <span class="track-author">${t.author || 'Artista Sconosciuto'}</span>
+                                            <span class="track-author">${t.author || ''}</span>
                                             ${t.room ? `<span class="badge-room">${t.room}</span>` : ''}
                                         </div>
                                     </div>
-                                    <div class="track-meta">
-                                        <div class="track-duration">${t.start}</div>
-                                    </div>
+                                    <div class="track-duration">${t.start}</div>
                                 </div>
                             </div>
                         `).join('')}
@@ -209,10 +196,9 @@
         },
 
         playTrack: function(id) {
-            const track = this.currentData.tracks.find(t => t.id === id);
-            document.getElementById('nowPlaying').innerText = track.title;
-            const startTime = this.toSec(track.start);
-            this.player.currentTime = startTime;
+            const t = this.currentData.tracks.find(x => x.id === id);
+            document.getElementById('nowPlaying').innerText = t.title;
+            this.player.currentTime = this.toSec(t.start);
             this.player.play();
         },
 
@@ -234,25 +220,22 @@
             t.room = document.getElementById('editRoom').value;
             t.image = document.getElementById('editImg').value;
             this.renderGuide(this.currentData);
-            this.toggleModal('editModal');
+            this.closeModals();
         },
 
         generatePrompt: function() {
             const title = document.getElementById('pTitle').value || "Museo";
             const text = document.getElementById('pTranscript').value;
-            const prompt = `Analizza il testo per creare un file JSON per un'audioguida. 
-Struttura: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }
-Ogni traccia deve avere: id, title, author, start, end, image e il campo "room".
-PER IL CAMPO "room": Ricerca sul web o usa la tua conoscenza per identificare in quale SALA o AREA del museo si trova l'opera citata (es. "Sala del Colosso", "Tribuna del David"). Se non trovi la sala, usa "Percorso Generale".
-Testo: ${text}`;
-            
+            const prompt = `Analizza il testo e crea un JSON per audioguida: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }.
+            Per ogni traccia inserisci i campi: id, title, author, start, end, image e il nuovo campo "room".
+            IMPORTANTE: Per il campo "room", cerca di capire dalla tua base di conoscenza in quale sala o area del museo si trova l'opera (es. "Sala del Colosso", "Gipsoteca", "Tribuna del David"). Testo: ${text}`;
             navigator.clipboard.writeText(prompt);
-            alert("Prompt con gestione SALE copiato in memoria!");
+            alert("Prompt con gestione sale copiato!");
         },
 
         downloadJson: function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentData, null, 2));
-            const a = document.createElement('a'); a.href = dataStr; a.download = "guida_aggiornata.json"; a.click();
+            const a = document.createElement('a'); a.href = dataStr; a.download = "guida.json"; a.click();
         },
 
         toSec: function(s) { 
