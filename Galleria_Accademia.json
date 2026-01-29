@@ -8,6 +8,7 @@
       "room": "Ingresso",
       "start": "0:00",
       "end": "0:47",
+      "desc": "Benvenuti alla Galleria dell'Accademia di Firenze. Questo museo non è solo la casa del David, ma uno scrigno che racchiude secoli di storia dell'arte fiorentina.",
       "author": "Audioguida",
       "image": "https://www.galleriaaccademiafirenze.it/wp-content/uploads/2024/04/381888-e1722342654987.jpg"
     },
@@ -18,43 +19,208 @@
       "room": "Sala del Colosso",
       "start": "0:49",
       "end": "1:29",
+      "desc": "Al centro della prima sala domina questo imponente modello in terra cruda. È lo studio preparatorio per la statua in Piazza della Signoria.",
       "image": "https://www.artesvelata.it/wp-content/uploads/2021/06/Giambologna-Ratto-della-Sabina-1583.-Particolare-arte-svelata-storia-dellarte-scaled.jpg"
     },
     {
       "id": 3,
-      "title": "Madonna col bambino",
+      "title": "Madonna col bambino (Madonna del mare)",
       "author": "Sandro Botticelli",
       "room": "Sala del Colosso",
       "start": "1:31",
       "end": "2:00",
+      "desc": "In questo dipinto giovanile di Botticelli osservate la delicatezza del volto di Maria.",
       "image": "https://www.telanarrante.com/wp-content/uploads/2025/05/BOTTICELLI-MADONNA-MARE-1.png"
+    },
+    {
+      "id": 4,
+      "title": "Cassone Adimari",
+      "author": "Lo Scheggia",
+      "room": "Sala del Colosso",
+      "start": "2:00",
+      "end": "2:40",
+      "desc": "Questo lungo pannello dipinto raffigura un corteo nuziale nel cuore di Firenze.",
+      "image": "https://www.copia-di-arte.com/kunst/giovanni_di_ser_giovanni_scheggia/166335_frontal_from_the_adimari_casso_hi.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Tebaide",
+      "author": "Paolo Uccello",
+      "room": "Sala del Colosso",
+      "start": "2:40",
+      "end": "3:12",
+      "desc": "Questo dipinto racconta la vita dei santi eremiti nel deserto con una struttura geometrica moderna.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Paolo_uccello%2C_tebaide.jpg/330px-Paolo_uccello%2C_tebaide.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Santi Stefano, Giacomo e Pietro",
+      "author": "Domenico Ghirlandaio",
+      "room": "Sala del Colosso",
+      "start": "3:12",
+      "end": "3:52",
+      "desc": "Ghirlandaio è stato uno dei maestri di Michelangelo. In questa tavola osservate la monumentalità dei tre santi.",
+      "image": "https://www.firenzepost.it/wp-content/themes/yootheme/cache/44/GhirlandaioRID-44cf0b7d.jpeg"
     },
     {
       "id": 7,
       "title": "Schiavo giovane",
-      "author": "Michelangelo",
+      "author": "Michelangelo Buonarroti",
       "room": "Galleria dei Prigioni",
       "start": "3:52",
       "end": "4:24",
+      "desc": "Il primo prigione a sinistra nel corridoio. Mostra la tecnica di attacco diretto al blocco di marmo.",
       "image": "https://wahooart.com/media/artworks/images/full/6d/c7/6dc73f91f81b466bb24ef96412accc5c.JPG"
+    },
+    {
+      "id": 8,
+      "title": "Schiavo barbuto",
+      "author": "Michelangelo Buonarroti",
+      "room": "Galleria dei Prigioni",
+      "start": "4:24",
+      "end": "4:50",
+      "desc": "Il più finito dei quattro prigioni. Si vede chiaramente la tensione muscolare del torso.",
+      "image": "https://michelangelobuonarrotietornato.com/wp-content/uploads/2020/09/img_0671-1.jpg"
+    },
+    {
+      "id": 9,
+      "title": "Atlante",
+      "author": "Michelangelo Buonarroti",
+      "room": "Galleria dei Prigioni",
+      "start": "4:51",
+      "end": "5:16",
+      "desc": "La testa è ancora imprigionata nel marmo, simbolo estremo del concetto di 'non finito'.",
+      "image": "https://mythologiae.unibo.it/wp-content/uploads/2017/06/prisoner-atlas.jpg"
+    },
+    {
+      "id": 10,
+      "title": "Schiavo che si desta",
+      "author": "Michelangelo Buonarroti",
+      "room": "Galleria dei Prigioni",
+      "start": "5:16",
+      "end": "5:43",
+      "desc": "Il corpo si inarca cercando di strapparsi via dalla pietra.",
+      "image": "https://www.sigecweb.beniculturali.it/images/fullsize/ICCD1003088/ICCD10214550_010268.JPG"
+    },
+    {
+      "id": 11,
+      "title": "San Matteo",
+      "author": "Michelangelo Buonarroti",
+      "room": "Galleria dei Prigioni",
+      "start": "5:45",
+      "end": "6:11",
+      "desc": "Unico dei dodici apostoli commissionati per il Duomo che Michelangelo iniziò a scolpire.",
+      "image": "https://michelangelobuonarrotietornato.com/wp-content/uploads/2022/02/img_0558.jpg"
+    },
+    {
+      "id": 12,
+      "title": "Pietà di Palestrina",
+      "author": "Attribuita a Michelangelo",
+      "room": "Galleria dei Prigioni",
+      "start": "6:13",
+      "end": "6:44",
+      "desc": "Gruppo scultoreo imponente con Cristo sorretto dalla Vergine e Maria Maddalena.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Michelangelo_buonarroti_%28attr._o_seguace%29%2C_piet%C3%A0_di_palestrina%2C_forse_1555_ca.%2C_da_S._Rosalia_a_palestrina_03.JPG/1280px-Michelangelo_buonarroti_%28attr._o_seguace%29%2C_piet%C3%A0_di_palestrina%2C_forse_1555_ca.%2C_da_S._Rosalia_a_palestrina_03.JPG"
     },
     {
       "id": 13,
       "title": "David",
-      "author": "Michelangelo",
+      "author": "Michelangelo Buonarroti",
       "room": "Tribuna del David",
       "start": "6:47",
       "end": "7:23",
+      "desc": "Il capolavoro assoluto, simbolo della virtù civica fiorentina e della perfezione anatomica.",
       "image": "https://www.firenzemadeintuscany.com/assets/w=1500&h=740&fit=fill&f=center___images.ctfassets.net_7dc7gq8ix1ml_23nHjjveLPfZJSSMnHzPXK_e9ad6d69e7a5e2d018b65b5ac039704d_w_1500_h_740_fit_fill_f_center___images.ctfassets.net_7dc7gq8ix1ml_7kY6opPVMgvFwE8ilfgtZ2_73f4ffe2510a71e55638bb265700139d_c.jpg"
+    },
+    {
+      "id": 14,
+      "title": "Busto di Michelangelo",
+      "author": "Daniele da Volterra",
+      "room": "Tribuna del David",
+      "start": "7:25",
+      "end": "7:55",
+      "desc": "Ritrae l'artista in età avanzata; è opera di un suo amico fedele.",
+      "image": "https://www.gonews.it/wp-content/uploads/2018/02/busto_di_michelangelo_daniele_da_volterra_firenze_2018_02_22_.jpg"
+    },
+    {
+      "id": 15,
+      "title": "L'ammostatore",
+      "author": "Lorenzo Bartolini",
+      "room": "Gipsoteca",
+      "start": "7:59",
+      "end": "8:33",
+      "desc": "Un fanciullo che pigia l'uva, esempio del 'bello naturale' di Bartolini.",
+      "image": "https://www.finestresullarte.info/rivista/immagini/2017/746/lorenzo-bartolini-ammostatore-busto.jpg"
+    },
+    {
+      "id": 16,
+      "title": "Fiducia in Dio",
+      "author": "Lorenzo Bartolini",
+      "room": "Gipsoteca",
+      "start": "8:34",
+      "end": "9:05",
+      "desc": "Figura femminile inginocchiata che rappresenta l'abbandono spirituale.",
+      "image": "https://michelangelobuonarrotietornato.com/wp-content/uploads/2024/11/f-1.jpg"
+    },
+    {
+      "id": 17,
+      "title": "Albero della vita",
+      "author": "Pacino di Buonaguida",
+      "room": "Sale del Duecento e Trecento",
+      "start": "9:08",
+      "end": "9:40",
+      "desc": "Una complessa enciclopedia teologica dipinta nel 1300.",
+      "image": "https://www.arte.it/foto/600x450/01/114279-Pacino_di_Buonaguida_Albero_della_Vita.jpg"
+    },
+    {
+      "id": 18,
+      "title": "Incoronazione della Vergine",
+      "author": "Jacopo di Cione",
+      "room": "Sale del Duecento e Trecento",
+      "start": "9:41",
+      "end": "10:12",
+      "desc": "Grande pala d'altare a fondo oro che mostra lo splendore dell'arte post-giottesca.",
+      "image": "https://c8.alamy.com/compit/j6660p/l-incoronazione-della-vergine-centrale-di-livello-principale-pannello-1370-1-jacopo-di-cione-e-workshop-san-pier-maggiore-pala-italia-italiano-j6660p.jpg"
     },
     {
       "id": 19,
       "title": "Viola Medicea",
       "author": "Antonio Stradivari",
-      "room": "Dipartimento Strumenti Musicali",
+      "room": "Strumenti Musicali",
       "start": "10:15",
       "end": "10:46",
+      "desc": "Costruita nel 1690, è l'unica viola tenore di Stradivari conservata integra.",
       "image": "https://www.galleriaaccademiafirenze.it/wp-content/uploads/2021/03/1988_015_p.jpg"
+    },
+    {
+      "id": 20,
+      "title": "Violoncello Mediceo",
+      "author": "Antonio Stradivari",
+      "room": "Strumenti Musicali",
+      "start": "14:53",
+      "end": "15:21",
+      "desc": "Parte del quintetto Mediceo, vanta una vernice rossa e un suono inarrivabile.",
+      "image": "https://www.galleriaaccademiafirenze.it/wp-content/uploads/2021/03/1988_034_altro5-815x1024.jpg"
+    },
+    {
+      "id": 21,
+      "title": "Spinetta ovale",
+      "author": "Bartolomeo Cristofori",
+      "room": "Strumenti Musicali",
+      "start": "15:22",
+      "end": "15:53",
+      "desc": "Strumento rarissimo costruito dall'inventore del pianoforte.",
+      "image": "https://www.aboutartonline.com/wp-content/uploads/2023/08/Spinetta-ovale-Bartolomeo-Cristofori-bassa39323.jpg"
+    },
+    {
+      "id": 22,
+      "title": "Pianoforte di Cristofori",
+      "author": "Bartolomeo Cristofori",
+      "room": "Strumenti Musicali",
+      "start": "15:54",
+      "end": "16:22",
+      "desc": "L'antenato diretto dei moderni pianoforti da concerto.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pianoforte_Cristofori_1720.jpg/1920px-Pianoforte_Cristofori_1720.jpg"
     }
   ]
 }
