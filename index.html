@@ -3,28 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Audioguide AI Player & Editor</title>
+    <title>Audioguide AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary: #c62828;
-            --primary-light: #ffcdd2;
-            --surface: #ffffff;
-            --background: #f3f4f6;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --radius: 12px;
+            --primary-apple: #007aff; /* Blu Apple */
+            --secondary-apple: #5ac8fa; /* Azzurro */
+            --background-light: #f9f9f9;
+            --background-dark: #eef1f6;
+            --surface-card: #ffffff;
+            --text-dark: #1c1c1e;
+            --text-light: #8e8e93;
+            --border-light: #e0e0e0;
+            --shadow-subtle: 0 1px 4px rgba(0,0,0,0.05);
+            --shadow-medium: 0 4px 12px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--background);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--background-light);
             color: var(--text-dark);
-            padding-bottom: 180px;
+            padding-bottom: 180px; /* Spazio per il player fisso */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- LOGICA EDITING MODE --- */
@@ -38,133 +45,191 @@
 
         /* --- HEADER --- */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 15px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-subtle);
         }
 
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        h1 { margin: 0; font-size: 1.25rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        h1 { margin: 0; font-size: 1.35rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+        h1 i { color: var(--primary-apple); } /* Icona colorata */
         
         .btn-icon {
-            background: var(--background); border: none; width: 40px; height: 40px;
+            background: var(--background-dark); border: none; width: 44px; height: 44px;
             border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; transition: transform 0.2s;
+            font-size: 1.1rem; color: var(--text-dark); transition: all 0.2s ease-in-out;
+            box-shadow: var(--shadow-subtle);
         }
+        .btn-icon:active { transform: scale(0.95); background-color: #e0e0e0; }
+        .btn-icon.primary { background-color: var(--primary-apple); color: white; }
 
         .search-bar { position: relative; width: 100%; }
         .search-bar input {
-            width: 100%; padding: 12px 15px 12px 40px; border: none; background: #e2e8f0;
-            border-radius: var(--radius); font-size: 1rem; outline: none;
+            width: 100%; padding: 12px 15px 12px 45px; border: none; background: var(--background-dark);
+            border-radius: var(--radius-md); font-size: 1rem; outline: none;
+            color: var(--text-dark);
         }
-        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+        .search-bar input::placeholder { color: var(--text-light); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
 
-        /* --- CONTROLLI FILE --- */
+        /* --- CONTROLLI FILE (Chips) --- */
         .file-controls {
-            padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; white-space: nowrap;
+            padding: 10px 20px; display: flex; gap: 10px; overflow-x: auto; white-space: nowrap;
+            -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
         }
         
         .chip {
-            background: white; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 20px;
-            font-size: 0.9rem; font-weight: 600; color: var(--text-dark); cursor: pointer;
-            display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm);
+            background: var(--surface-card); border: 1px solid var(--border-light); padding: 8px 16px; border-radius: 20px;
+            font-size: 0.9rem; font-weight: 500; color: var(--text-dark); cursor: pointer;
+            display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-subtle);
+            transition: all 0.2s ease;
         }
-        .chip.active { background: var(--text-dark); color: white; border-color: var(--text-dark); }
-        .chip.save-btn { background: #166534; color: white; border-color: #166534; }
+        .chip:active { transform: scale(0.98); background-color: var(--background-dark); }
+        .chip.active { background: var(--primary-apple); color: white; border-color: var(--primary-apple); }
+        .chip.save-btn { background: #34c759; color: white; border-color: #34c759; } /* Verde Apple */
         .chip input[type=file] { display: none; }
 
         /* --- LISTA TRACCE (Card ottimizzate) --- */
-        .container { max-width: 800px; margin: 0 auto; padding: 10px 15px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 10px 20px; }
         
         .track-card {
-            background: var(--surface); border-radius: var(--radius); padding: 0;
-            margin-bottom: 12px; box-shadow: var(--shadow-sm); cursor: pointer;
-            transition: all 0.2s ease; border-left: 5px solid transparent;
+            background: var(--surface-card); border-radius: var(--radius-lg); padding: 0;
+            margin-bottom: 15px; box-shadow: var(--shadow-medium); cursor: pointer;
+            transition: all 0.2s ease; border: 1px solid var(--border-light);
             position: relative; overflow: hidden; display: flex; align-items: stretch;
-            min-height: 110px;
+            min-height: 140px; /* Maggiore altezza per l'immagine */
         }
 
-        .track-card.active { border-left-color: var(--primary); background: #fffafa; box-shadow: var(--shadow-md); }
+        .track-card.active { border-color: var(--primary-apple); background: #f0f8ff; } /* Leggermente evidenziato */
+        .track-card:active { transform: scale(0.98); }
 
         .track-img-container {
-            width: 110px; min-width: 110px; height: auto;
-            background: #eee; display: block;
+            width: 140px; min-width: 140px; height: auto; /* Maggiore larghezza per l'immagine */
+            background: var(--background-dark); display: block; overflow: hidden;
+            border-top-left-radius: var(--radius-lg);
+            border-bottom-left-radius: var(--radius-lg);
         }
         .track-img { width: 100%; height: 100%; object-fit: cover; }
         
-        .track-content { padding: 12px; flex-grow: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+        .track-content { padding: 15px; flex-grow: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 
         .track-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
-        .track-title { font-weight: 700; font-size: 1rem; line-height: 1.2; color: var(--text-dark); }
-        .track-duration { font-size: 0.7rem; background: #eee; padding: 2px 6px; border-radius: 4px; color: #555; }
+        .track-title { font-weight: 600; font-size: 1.05rem; line-height: 1.3; color: var(--text-dark); }
+        .track-duration { 
+            font-size: 0.75rem; background: var(--background-dark); padding: 3px 8px; border-radius: 12px; 
+            color: var(--text-light); font-weight: 500;
+        }
 
-        .track-author { font-size: 0.85rem; color: var(--primary); font-weight: 500; margin-bottom: 4px; }
+        .track-author { font-size: 0.85rem; color: var(--text-light); font-weight: 400; margin-bottom: 6px; }
         .track-desc { font-size: 0.85rem; color: var(--text-light); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
         .edit-track-btn {
-            position: absolute; top: 8px; right: 8px;
-            background: white; border: 1px solid #ddd;
-            border-radius: 50%; width: 30px; height: 30px;
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(255,255,255,0.8); border: 1px solid var(--border-light);
+            border-radius: 50%; width: 34px; height: 34px;
             display: flex; align-items: center; justify-content: center; z-index: 10;
+            font-size: 0.9rem; color: var(--text-light);
+            box-shadow: var(--shadow-subtle);
         }
+        .edit-track-btn:active { transform: scale(0.95); }
 
-        /* --- PLAYER BAR (Mobile Friendly) --- */
+        /* --- PLAYER BAR (Mobile Friendly & Elegante) --- */
         .player-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: white; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); 
-            padding: 15px 20px 30px 20px; z-index: 500; border-radius: 20px 20px 0 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05); 
+            padding: 20px 20px 30px 20px; /* Più padding sotto per il safe area */
+            z-index: 500; border-radius: 20px 20px 0 0;
+            border-top: 1px solid var(--border-light);
         }
         
-        .np-info { text-align: center; margin-bottom: 10px; }
-        .np-title { font-size: 1rem; font-weight: bold; color: var(--primary); }
+        .np-info { text-align: center; margin-bottom: 15px; }
+        .np-title { font-size: 1.05rem; font-weight: 600; color: var(--text-dark); }
+        .np-artist { font-size: 0.9rem; color: var(--text-light); margin-top: 4px; }
 
-        .player-controls-main { display: flex; align-items: center; justify-content: center; gap: 25px; margin-top: 10px; }
-        .btn-player { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-dark); }
+        .player-controls-main { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 15px; }
+        .btn-player { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-dark); opacity: 0.8; transition: opacity 0.2s; }
+        .btn-player:active { opacity: 1; transform: scale(0.95); }
+
         .btn-play-pause { 
-            background: var(--primary); color: white; width: 55px; height: 55px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
+            background: var(--primary-apple); color: white; width: 60px; height: 60px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; 
+            box-shadow: var(--shadow-medium);
         }
+        .btn-play-pause:active { background-color: #006ee6; transform: scale(0.95); }
 
-        audio { width: 100%; height: 30px; margin-top: 15px; opacity: 0.6; }
+        audio { width: 100%; height: 30px; margin-top: 15px; opacity: 0.6; } /* Manteniamo i controlli base ma più discreti */
 
-        /* --- MODALI --- */
+        /* --- MODALI (Stile Apple sheets) --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 20px;
+            background: rgba(0,0,0,0.4); z-index: 2000; align-items: flex-end; justify-content: center;
         }
-        .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 20px; max-height: 80vh; overflow-y: auto; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-        .input-group input, .input-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
-        .btn-primary { background: var(--text-dark); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; }
+        .modal-box { 
+            background: var(--surface-card); width: 100%; max-width: 500px; 
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0; 
+            padding: 25px; max-height: 85vh; overflow-y: auto;
+            transform: translateY(100%); transition: transform 0.3s ease-out;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .modal-overlay.visible .modal-box { transform: translateY(0); } /* Animazione slide-up */
+
+        h3 { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; color: var(--text-light); }
+        .input-group input, .input-group textarea { 
+            width: 100%; padding: 12px 15px; border: 1px solid var(--border-light); border-radius: var(--radius-sm);
+            font-size: 1rem; color: var(--text-dark); background-color: var(--background-dark);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-group input:focus, .input-group textarea:focus { 
+            border-color: var(--primary-apple); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); outline: none;
+            background-color: white;
+        }
+        
+        .btn-primary { 
+            background: var(--primary-apple); color: white; border: none; padding: 14px; border-radius: var(--radius-md); 
+            width: 100%; font-weight: 600; font-size: 1.05rem; cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: var(--shadow-subtle);
+        }
+        .btn-primary:active { background-color: #006ee6; transform: scale(0.99); }
+        .btn-secondary { 
+            background:#eef1f6; color:#333; margin-top:10px; 
+            border: 1px solid var(--border-light); 
+        }
+        .btn-secondary:active { background-color: #e0e0e0; transform: scale(0.99); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-top">
-        <h1>🏛️ AudioGuide AI</h1>
+        <h1><i class="fas fa-headphones-alt"></i> AudioGuide</h1>
         <div style="display: flex; gap: 8px;">
-            <button class="btn-icon edit-mode-only" onclick="window.app.openTool()">✨</button>
-            <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')">🛠️</button>
+            <button class="btn-icon edit-mode-only primary" onclick="window.app.openTool()" title="Crea Prompt"><i class="fas fa-magic"></i></button>
+            <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')" title="Modalità Editing"><i class="fas fa-tools"></i></button>
         </div>
     </div>
     <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Cerca opera..." oninput="window.app.search(this.value)">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input type="text" placeholder="Cerca opera, autore..." oninput="window.app.search(this.value)">
     </div>
 </header>
 
 <div class="file-controls">
-    <div class="chip active" onclick="window.app.loadDemo()">📱 Demo</div>
-    <label class="chip edit-mode-only">📂 Carica JSON <input type="file" accept=".json" onchange="window.app.loadLocalJson(this)"></label>
-    <div class="chip save-btn edit-mode-only" onclick="window.app.downloadJson()">💾 Esporta</div>
+    <div class="chip active" onclick="window.app.loadDemo()"><i class="fas fa-mobile-alt"></i> Demo</div>
+    <label class="chip edit-mode-only"><i class="fas fa-folder-open"></i> Carica JSON <input type="file" accept=".json" onchange="window.app.loadLocalJson(this)"></label>
+    <div class="chip save-btn edit-mode-only" onclick="window.app.downloadJson()"><i class="fas fa-download"></i> Esporta</div>
 </div>
 
 <div class="container" id="trackList"></div>
@@ -172,12 +237,13 @@
 <div class="player-bar">
     <div class="np-info">
         <div id="npTitle" class="np-title">Seleziona una traccia</div>
+        <div id="npArtist" class="np-artist"></div>
     </div>
     
     <div class="player-controls-main">
-        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime -= 10">⏪</button>
-        <button class="btn-player btn-play-pause" id="playBtn" onclick="window.app.togglePlay()">▶️</button>
-        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime += 10">⏩</button>
+        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime -= 10" title="Indietro 10 secondi"><i class="fas fa-backward"></i></button>
+        <button class="btn-player btn-play-pause" id="playBtn" onclick="window.app.togglePlay()" title="Riproduci/Pausa"><i class="fas fa-play"></i></button>
+        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime += 10" title="Avanti 10 secondi"><i class="fas fa-forward"></i></button>
     </div>
     
     <audio id="audioPlayer" controlslist="nodownload"></audio>
@@ -187,43 +253,61 @@
     <div class="modal-box">
         <h3>Modifica Traccia</h3>
         <input type="hidden" id="editId">
-        <div class="input-group"><label>Immagine (URL o Base64)</label><input type="text" id="editImg"></div>
-        <div class="input-group"><label>Titolo</label><input type="text" id="editTitle"></div>
-        <div class="input-group"><label>Autore</label><input type="text" id="editAuthor"></div>
-        <div class="input-group"><label>Descrizione</label><textarea id="editDesc" rows="3"></textarea></div>
-        <button class="btn-primary" onclick="window.app.saveTrack()">Salva</button>
-        <button class="btn-primary" style="background:#eee; color:#333; margin-top:8px;" onclick="document.getElementById('editorModal').style.display='none'">Chiudi</button>
+        <div class="input-group"><label for="editImg">Immagine (URL o Base64)</label><input type="text" id="editImg"></div>
+        <div class="input-group"><label for="editTitle">Titolo</label><input type="text" id="editTitle"></div>
+        <div class="input-group"><label for="editAuthor">Autore</label><input type="text" id="editAuthor"></div>
+        <div class="input-group"><label for="editDesc">Descrizione</label><textarea id="editDesc" rows="3"></textarea></div>
+        <button class="btn-primary" onclick="window.app.saveTrack()">Salva Modifiche</button>
+        <button class="btn-primary btn-secondary" onclick="window.app.closeEditor()">Chiudi</button>
     </div>
 </div>
 
 <script>
     const DEMO_DATA = {
         title: "Galleria dell'Accademia",
-        mp3File: "audio.mp3",
+        mp3File: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Esempio di MP3
         tracks: [
-            { id: 1, title: "Introduzione", author: "Guida", start: "00:00", end: "00:46", desc: "Benvenuti alla Galleria dell'Accademia di Firenze.", image: "https://images.unsplash.com/photo-1594142340571-08573267926c?auto=format&fit=crop&w=300&q=80" },
-            { id: 2, title: "Ratto delle Sabine", author: "Giambologna", start: "00:48", end: "01:28", desc: "Modello in terra cruda al centro della Sala del Colosso.", image: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&w=300&q=80" }
+            { id: 1, title: "Introduzione", author: "Guida", start: "00:00", end: "00:46", desc: "Benvenuti alla Galleria dell'Accademia di Firenze. Esplorate capolavori rinascimentali come il David di Michelangelo.", image: "https://images.unsplash.com/photo-1601633513361-b58097b83d81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NzkzMTl8MHwxfHNlYXJjaHwxfHxBbGxjYWRlbWlhJTIwR2FsbGVyeSUyQyUyMEZpcmVuemV8ZW58MHx8fHwxNzAzMjM5MDQ5fDA&ixlib=rb-4.0.3&q=80&w=400" },
+            { id: 2, title: "Ratto delle Sabine", author: "Giambologna", start: "00:48", end: "01:28", desc: "Modello in terra cruda al centro della Sala del Colosso. Un'opera che illustra il mito romano.", image: "https://images.unsplash.com/photo-1614051016629-9e8d3b8e7b9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NzkzMTl8MHwxfHNlYXJjaHwyfHxSYXR0byUyMGRlbGxlJTIwU2FiaW5lJTIwJTIwR2lhbWJvbG9nbmF8ZW58MHx8fHwxNzAzMjQ0NDM2fDA&ixlib=rb-4.0.3&q=80&w=400" },
+            { id: 3, title: "David di Michelangelo", author: "Michelangelo", start: "01:30", end: "02:15", desc: "La scultura iconica di David, simbolo di forza e purezza. Ammirate i dettagli incredibili del marmo.", image: "https://images.unsplash.com/photo-1632598380234-a1f7c0d12e6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NzkzMTl8MHwxfHNlYXJjaHwxfHxEYXZpZCUyMG1pY2hlbGFuZ2Vsb3xlbnwwfHw8fDE3MDMyMzkwNDl8MA&ixlib=rb-4.0.3&q=80&w=400" },
+            { id: 4, title: "Prigioni", author: "Michelangelo", start: "02:17", end: "03:00", desc: "Quattro sculture incompiute destinate alla tomba di Papa Giulio II. Esplorate il concetto di 'non-finito'.", image: "https://images.unsplash.com/photo-1627885078505-8b1b2f0a1d4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NzkzMTl8MHwxfHNlYXJjaHwxfHxNaWNoZWxhbmdlbG8lMjBQcmlnaW9uaXxlbnwwfHw8fDE3MDMyMzkwNDl8MA&ixlib=rb-4.0.3&q=80&w=400" }
         ]
     };
 
     window.app = {
         currentData: null,
         activeEndSec: null,
+        player: null,
+        playBtn: null,
+        npTitle: null,
+        npArtist: null,
 
         init: function() {
-            this.loadDemo();
-            const player = document.getElementById('audioPlayer');
-            const playBtn = document.getElementById('playBtn');
+            this.player = document.getElementById('audioPlayer');
+            this.playBtn = document.getElementById('playBtn');
+            this.npTitle = document.getElementById('npTitle');
+            this.npArtist = document.getElementById('npArtist');
             
-            player.addEventListener('timeupdate', () => {
-                if (this.activeEndSec && player.currentTime >= this.activeEndSec) {
-                    player.pause();
+            this.loadDemo();
+            this.setupPlayerListeners();
+        },
+
+        setupPlayerListeners: function() {
+            this.player.addEventListener('timeupdate', () => {
+                if (this.activeEndSec && this.player.currentTime >= this.activeEndSec) {
+                    this.player.pause();
                     this.activeEndSec = null;
                 }
             });
 
-            player.onplay = () => playBtn.textContent = '⏸️';
-            player.onpause = () => playBtn.textContent = '▶️';
+            this.player.onplay = () => this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            this.player.onpause = () => this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            this.player.onended = () => {
+                this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                this.npTitle.textContent = "Seleziona una traccia";
+                this.npArtist.textContent = "";
+                document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
+            };
         },
 
         loadDemo: function() { this.renderGuide(JSON.parse(JSON.stringify(DEMO_DATA))); },
@@ -239,9 +323,10 @@
         renderGuide: function(data) {
             this.currentData = data;
             const list = document.getElementById('trackList');
-            const player = document.getElementById('audioPlayer');
             
-            if (data.mp3File && !player.src.endsWith(data.mp3File)) player.src = data.mp3File;
+            if (data.mp3File && !this.player.src.endsWith(data.mp3File)) {
+                this.player.src = data.mp3File;
+            }
             
             list.innerHTML = '';
             data.tracks.forEach(track => {
@@ -250,7 +335,7 @@
                 el.id = `track-${track.id}`;
                 el.innerHTML = `
                     <div class="track-img-container">
-                        <img src="${track.image || ''}" class="track-img" onerror="this.src='https://via.placeholder.com/150?text=No+Img'">
+                        <img src="${track.image || 'https://via.placeholder.com/150?text=No+Img'}" class="track-img" onerror="this.src='https://via.placeholder.com/150?text=No+Img'">
                     </div>
                     <div class="track-content" onclick="window.app.playTrack(${track.id})">
                         <div class="track-header">
@@ -260,7 +345,7 @@
                         <div class="track-author">${track.author || ''}</div>
                         <div class="track-desc">${track.desc}</div>
                     </div>
-                    <button class="edit-track-btn edit-mode-only" onclick="window.app.openEditor(${track.id})">✏️</button>
+                    <button class="edit-track-btn edit-mode-only" onclick="event.stopPropagation(); window.app.openEditor(${track.id})" title="Modifica Traccia"><i class="fas fa-pencil-alt"></i></button>
                 `;
                 list.appendChild(el);
             });
@@ -269,20 +354,24 @@
         playTrack: function(id) {
             const track = this.currentData.tracks.find(t => t.id === id);
             if(!track) return;
-            const player = document.getElementById('audioPlayer');
             
             this.activeEndSec = this.toSec(track.end);
-            player.currentTime = this.toSec(track.start);
-            player.play();
+            this.player.currentTime = this.toSec(track.start);
             
-            document.getElementById('npTitle').textContent = track.title;
-            document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
-            document.getElementById(`track-${id}`).classList.add('active');
+            this.player.play().then(() => {
+                this.npTitle.textContent = track.title;
+                this.npArtist.textContent = track.author || '';
+                document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
+                document.getElementById(`track-${id}`).classList.add('active');
+            }).catch(e => console.error("Autoplay impedito:", e));
         },
 
         togglePlay: function() {
-            const p = document.getElementById('audioPlayer');
-            if (p.paused) p.play(); else p.pause();
+            if (this.player.paused) {
+                this.player.play();
+            } else {
+                this.player.pause();
+            }
         },
 
         openEditor: function(id) {
@@ -292,7 +381,11 @@
             document.getElementById('editAuthor').value = track.author || '';
             document.getElementById('editDesc').value = track.desc;
             document.getElementById('editImg').value = track.image || '';
-            document.getElementById('editorModal').style.display = 'flex';
+            document.getElementById('editorModal').classList.add('visible');
+        },
+
+        closeEditor: function() {
+            document.getElementById('editorModal').classList.remove('visible');
         },
 
         saveTrack: function() {
@@ -304,14 +397,14 @@
                 this.currentData.tracks[idx].desc = document.getElementById('editDesc').value;
                 this.currentData.tracks[idx].image = document.getElementById('editImg').value;
                 this.renderGuide(this.currentData);
-                document.getElementById('editorModal').style.display = 'none';
+                this.closeEditor();
             }
         },
 
         downloadJson: function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentData, null, 2));
             const a = document.createElement('a');
-            a.href = dataStr; a.download = "guida.json"; a.click();
+            a.href = dataStr; a.download = "audioguide.json"; a.click();
         },
 
         toSec: function(str) { const p = str.split(':'); return parseInt(p[0]) * 60 + parseInt(p[1]); },
@@ -319,12 +412,17 @@
             const term = q.toLowerCase();
             document.querySelectorAll('.track-card').forEach((card, i) => {
                 const t = this.currentData.tracks[i];
-                card.style.display = (t.title.toLowerCase().includes(term) || (t.author && t.author.toLowerCase().includes(term))) ? 'flex' : 'none';
+                card.style.display = (t.title.toLowerCase().includes(term) || (t.author && t.author.toLowerCase().includes(term)) || t.desc.toLowerCase().includes(term)) ? 'flex' : 'none';
             });
+        },
+        openTool: function() {
+            // Placeholder per l'apertura dello strumento di creazione prompt/immagini
+            alert("Apri Strumento di Creazione Prompt/Immagini (funzionalità da implementare)");
+            // Qui potresti integrare l'apertura di un'altra modal o un'altra pagina
         }
     };
 
-    window.app.init();
+    document.addEventListener('DOMContentLoaded', () => window.app.init());
 </script>
 
 </body>
