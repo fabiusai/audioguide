@@ -23,193 +23,328 @@
         body { 
             margin: 0; font-family: -apple-system, system-ui, sans-serif;
             background-color: var(--background-light); color: var(--text-dark);
-            padding-bottom: 240px;
+            padding-bottom: 220px; -webkit-font-smoothing: antialiased;
         }
 
-        header {
-            padding: 40px 20px 20px; background: var(--surface-card);
+        .edit-mode-only { display: none !important; }
+        body.is-editing .edit-mode-only { display: flex !important; }
+
+        /* --- HEADER & SEARCH --- */
+        .sticky-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border-light);
         }
-        h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+        header { padding: 15px 20px 10px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
 
-        /* Nuovi stili per le Sale del Museo */
-        .room-section { margin-top: 30px; padding: 0 16px; }
-        .room-header { 
-            font-size: 0.85rem; font-weight: 800; color: var(--primary-apple);
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-            padding-left: 5px; border-left: 3px solid var(--primary-apple);
+        .search-container { padding: 0 20px 15px; }
+        .search-wrapper {
+            position: relative; background: rgba(118, 118, 128, 0.12);
+            border-radius: 10px; display: flex; align-items: center; padding: 8px 12px;
+        }
+        .search-wrapper i { color: var(--text-light); margin-right: 8px; }
+        .search-wrapper input {
+            border: none; background: transparent; width: 100%; outline: none;
+            font-size: 1rem; color: var(--text-dark);
         }
 
-        .track-list { display: flex; flex-direction: column; gap: 16px; }
+        .btn-icon {
+            background: #e5e5ea; border: none; width: 36px; height: 36px;
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--text-dark); transition: 0.2s;
+        }
+
+        /* --- ROOM HEADERS (NUOVO) --- */
+        .room-group { margin-bottom: 10px; }
+        .room-header {
+            padding: 20px 5px 10px 5px;
+            font-size: 0.9rem; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .room-header i { color: var(--primary-apple); }
+
+        /* --- CARD LIST --- */
+        .container { max-width: 500px; margin: 0 auto; padding: 15px; }
+        
         .track-card {
             background: var(--surface-card); border-radius: var(--radius-lg);
-            overflow: hidden; display: flex; height: 110px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;
+            margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            overflow: hidden; border: 1px solid var(--border-light);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
-        .track-img-container { width: 110px; height: 110px; flex-shrink: 0; }
-        .track-img { width: 100%; height: 100%; object-fit: cover; }
-        .track-content { 
-            padding: 12px 16px; flex-grow: 1; display: flex; 
-            flex-direction: column; justify-content: space-between;
-        }
-        .track-title { font-size: 17px; font-weight: 600; margin: 0; }
+        .track-card:active { transform: scale(0.97); }
+        .track-card.active { border: 2px solid var(--primary-apple); }
+
+        .track-img-container { width: 100%; height: 320px; background: #d1d1d6; overflow: hidden; }
+        .track-img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
         
-        .author-info { display: flex; flex-direction: column; gap: 4px; }
-        .track-author { font-size: 14px; color: var(--text-medium); }
-        .badge-room { 
-            font-size: 0.65rem; background: #e5e5ea; padding: 2px 6px; 
-            border-radius: 4px; color: var(--text-medium); font-weight: 700; width: fit-content;
+        .track-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .track-info-text { flex-grow: 1; }
+        .track-title { font-weight: 700; font-size: 1.1rem; margin: 0; letter-spacing: -0.3px; }
+        
+        .track-author { 
+            font-size: 0.95rem; color: var(--text-medium); margin-top: 4px; font-weight: 500; 
+            display: flex; align-items: center; gap: 8px;
         }
-        .track-duration { font-size: 13px; color: var(--text-light); font-variant-numeric: tabular-nums; }
+        
+        /* Badge sala dentro la card (opzionale) */
+        .badge-room {
+            font-size: 0.7rem; background: #f2f2f7; color: var(--text-light);
+            padding: 2px 6px; border-radius: 4px; font-weight: 600; text-transform: uppercase;
+        }
+        
+        .track-duration { font-size: 0.8rem; font-weight: 600; color: var(--primary-apple); }
 
-        /* Player Bar */
+        /* --- PLAYER --- */
         .player-bar {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-light); padding: 20px; z-index: 100;
+            position: fixed; bottom: 0; width: 100%;
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(25px);
+            padding: 20px 25px 40px; border-top: 1px solid var(--border-light);
+            z-index: 500;
         }
-        audio { width: 100%; height: 40px; margin-bottom: 10px; }
-        .now-playing { font-size: 14px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+        .np-title { text-align: center; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
+        .player-controls { display: flex; justify-content: center; align-items: center; gap: 35px; }
+        .play-btn { 
+            width: 65px; height: 65px; background: var(--text-dark); color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+        }
 
-        /* Modali */
+        /* --- MODALS --- */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; align-items: center; justify-content: center; z-index: 1000;
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
+            z-index: 1000; align-items: flex-end;
+        }
+        .modal-sheet {
+            background: white; width: 100%; border-radius: 24px 24px 0 0;
+            padding: 25px; transform: translateY(100%); transition: transform 0.3s ease-out;
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active { display: flex; }
-        .modal-content { 
-            background: white; width: 90%; max-width: 500px; padding: 25px;
-            border-radius: 20px; max-height: 80vh; overflow-y: auto;
+        .modal-overlay.active .modal-sheet { transform: translateY(0); }
+
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; }
+        .input-group input, .input-group textarea {
+            width: 100%; padding: 14px; border: none; background: #f2f2f7; border-radius: 12px; font-size: 1rem;
         }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; }
-        .btn { padding: 12px 20px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
-        .btn-primary { background: var(--primary-apple); color: white; width: 100%; }
-        
-        .admin-controls { display: flex; gap: 10px; padding: 10px 20px; background: #eee; }
-        .edit-mode-only { display: none; }
-        body.edit-mode .edit-mode-only { display: block; }
+        .btn-main { background: var(--primary-apple); color: white; border: none; padding: 16px; width: 100%; border-radius: 14px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<header>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h1 id="guideTitle">Carica Guida...</h1>
-        <button class="btn-icon" style="background:none; border:none; color:var(--primary-apple); font-size:1.2rem;" onclick="window.app.toggleAdmin()"><i class="fas fa-cog"></i></button>
+<div class="sticky-nav">
+    <header>
+        <div class="header-top">
+            <h1>Audioguide AI</h1>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-icon edit-mode-only" style="background: #fff9c4;" onclick="window.app.openPromptTool()"><i class="fas fa-sparkles"></i></button>
+                <button class="btn-icon" onclick="window.app.toggleExplore()"><i class="fas fa-compass"></i></button>
+                <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+        </div>
+    </header>
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Cerca opera o autore..." oninput="window.app.search(this.value)">
+        </div>
     </div>
-</header>
-
-<div class="admin-controls edit-mode-only">
-    <button class="btn" onclick="document.getElementById('fileInput').click()">Carica JSON</button>
-    <button class="btn" onclick="window.app.toggleModal('promptModal')">Prompt AI</button>
-    <button class="btn" onclick="window.app.downloadJson()">Esporta</button>
-    <input type="file" id="fileInput" hidden accept=".json" onchange="window.app.loadJson(event)">
 </div>
 
-<div id="trackList"></div>
+<div class="container" id="trackList"></div>
 
 <div class="player-bar">
-    <div class="now-playing" id="nowPlaying">In attesa...</div>
-    <audio id="mainPlayer" controls></audio>
+    <div id="npTitle" class="np-title">Scegli un'opera</div>
+    <div class="player-controls">
+        <button class="btn-icon" style="background:none" onclick="document.getElementById('audioPlayer').currentTime -= 10"><i class="fas fa-undo-alt fa-lg"></i></button>
+        <div class="play-btn" id="playBtn" onclick="window.app.togglePlay()"><i class="fas fa-play"></i></div>
+        <button class="btn-icon" style="background:none" onclick="document.getElementById('audioPlayer').currentTime += 10"><i class="fas fa-redo-alt fa-lg"></i></button>
+    </div>
+    <audio id="audioPlayer" style="display:none;"></audio>
 </div>
 
-<div id="promptModal" class="modal-overlay">
-    <div class="modal-content">
-        <h3>Generatore Prompt per AI</h3>
-        <input type="text" id="pTitle" placeholder="Titolo Museo">
-        <textarea id="pTranscript" rows="5" placeholder="Incolla trascrizione..."></textarea>
-        <button class="btn btn-primary" onclick="window.app.generatePrompt()">Copia Prompt con Sale</button>
-        <button class="btn" onclick="window.app.closeModals()">Chiudi</button>
+<div id="promptModal" class="modal-overlay" onclick="window.app.closeModals()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <h3 style="margin-top:0">✨ Generatore Prompt AI</h3>
+        <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Incolla il testo grezzo qui sotto. L'AI estrarrà le tracce e cercherà automaticamente la sala del museo.</p>
+        <div class="input-group"><label>Titolo Guida</label><input type="text" id="pTitle"></div>
+        <div class="input-group"><label>Testo Sorgente</label><textarea id="pTranscript" rows="5"></textarea></div>
+        <button class="btn-main" onclick="window.app.generatePrompt()">Copia Prompt Potenziato</button>
     </div>
 </div>
 
-<div id="editModal" class="modal-overlay">
-    <div class="modal-content">
-        <h3>Modifica Opera</h3>
+<div id="editorModal" class="modal-overlay" onclick="window.app.closeModals()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <h3 style="margin-top:0">Modifica Opera</h3>
         <input type="hidden" id="editId">
-        <label>Titolo</label><input type="text" id="editTitle">
-        <label>Autore</label><input type="text" id="editAuthor">
-        <label>Sala</label><input type="text" id="editRoom">
-        <label>URL Immagine</label><input type="text" id="editImg">
-        <button class="btn btn-primary" onclick="window.app.saveTrack()">Salva</button>
-        <button class="btn" onclick="window.app.closeModals()">Annulla</button>
+        <div class="input-group"><label>Immagine HD (URL)</label><input type="text" id="editImg"></div>
+        <div class="input-group"><label>Titolo</label><input type="text" id="editTitle"></div>
+        <div class="input-group"><label>Autore</label><input type="text" id="editAuthor"></div>
+        <div class="input-group"><label>Sala / Area Museo</label><input type="text" id="editRoom" placeholder="es. Sala del Colosso"></div>
+        
+        <button class="btn-main" onclick="window.app.saveTrack()">Salva Modifiche</button>
+        <button class="btn-main" style="background:#ff3b30; margin-top:10px;" onclick="window.app.downloadJson()">Esporta JSON</button>
+    </div>
+</div>
+
+<div id="exploreModal" class="modal-overlay" onclick="window.app.closeModals()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <h3 style="margin-top:0">Esplora Guide</h3>
+        <div id="guideList"></div>
     </div>
 </div>
 
 <script>
+    const CATALOG_URL = 'index.json'; 
+
     window.app = {
         currentData: null,
-        player: document.getElementById('mainPlayer'),
+        player: document.getElementById('audioPlayer'),
 
-        toggleAdmin: function() { document.body.classList.toggle('edit-mode'); },
-        toggleModal: function(id) { document.getElementById(id).classList.add('active'); },
-        closeModals: function() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
+        init: async function() {
+            this.setupPlayer();
+            try {
+                const res = await fetch(CATALOG_URL);
+                const catalog = await res.json();
+                this.renderCatalog(catalog);
+                this.fetchGuide(catalog[Math.floor(Math.random()*catalog.length)].url);
+            } catch (e) {
+                // Demo fallback
+                this.renderGuide({ title: "Demo", mp3File: "", tracks: [{ id: 1, title: "Il David", author: "Michelangelo", room: "Tribuna", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }] });
+            }
+        },
 
-        loadJson: function(e) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                this.currentData = JSON.parse(ev.target.result);
-                this.renderGuide(this.currentData);
-            };
-            reader.readAsText(e.target.files[0]);
+        getFreshUrl: function(url) {
+            if (!url) return '';
+            if (url.startsWith('data:')) return url;
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}t=${new Date().getTime()}`;
+        },
+
+        renderCatalog: function(cat) {
+            document.getElementById('guideList').innerHTML = cat.map(g => `
+                <div style="padding:18px; border-bottom:1px solid #f2f2f7; font-weight:600;" onclick="window.app.fetchGuide('${g.url}')">${g.title}</div>
+            `).join('');
+        },
+
+        fetchGuide: async function(url) {
+            const res = await fetch(url);
+            this.renderGuide(await res.json());
+            this.closeModals();
         },
 
         renderGuide: function(data) {
-            document.getElementById('guideTitle').innerText = data.title;
+            this.currentData = data;
             this.player.src = data.mp3File;
             const container = document.getElementById('trackList');
             
-            // Raggruppamento per Sala
+            // Raggruppa le tracce per sala
             const rooms = {};
             data.tracks.forEach(t => {
-                const r = t.room || "Percorso Generale";
-                if (!rooms[r]) rooms[r] = [];
-                rooms[r].push(t);
+                const roomName = t.room || "Percorso Generale";
+                if (!rooms[roomName]) rooms[roomName] = [];
+                rooms[roomName].push(t);
             });
 
+            // Genera HTML raggruppato
             container.innerHTML = Object.keys(rooms).map(roomName => `
-                <div class="room-section">
+                <div class="room-group">
                     <div class="room-header"><i class="fas fa-map-marker-alt"></i> ${roomName}</div>
-                    <div class="track-list">
-                        ${rooms[roomName].map(t => `
-                            <div class="track-card" id="track-${t.id}">
-                                <button class="edit-mode-only" style="position:absolute; top:8px; right:8px; z-index:10; border:none; background:white; border-radius:50%; width:28px; height:28px; box-shadow:0 2px 5px rgba(0,0,0,0.1);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen" style="font-size:0.7rem; color:var(--primary-apple);"></i></button>
-                                <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
-                                    <img src="${t.image}" class="track-img" onerror="this.src='https://via.placeholder.com/200x200?text=Immagine'">
-                                </div>
-                                <div class="track-content" onclick="window.app.playTrack(${t.id})">
-                                    <div>
-                                        <p class="track-title">${t.title}</p>
-                                        <div class="author-info">
-                                            <span class="track-author">${t.author || ''}</span>
-                                            ${t.room ? `<span class="badge-room">${t.room}</span>` : ''}
-                                        </div>
-                                    </div>
-                                    <div class="track-duration">${t.start}</div>
-                                </div>
+                    ${rooms[roomName].map(t => `
+                        <div class="track-card" id="track-${t.id}">
+                            <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
+                            <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
+                                <img src="${this.getFreshUrl(t.image)}" class="track-img" onerror="this.src='https://via.placeholder.com/800x1200?text=Immagine'">
                             </div>
-                        `).join('')}
-                    </div>
+                            <div class="track-content" onclick="window.app.playTrack(${t.id})">
+                                <div class="track-info-text">
+                                    <p class="track-title">${t.title}</p>
+                                    <div class="track-author">
+                                        <span>${t.author}</span>
+                                        ${t.room ? `<span class="badge-room" style="margin-left:8px;">${t.room}</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="track-duration">${t.start}</div>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
             `).join('');
         },
 
-        playTrack: function(id) {
-            const t = this.currentData.tracks.find(x => x.id === id);
-            document.getElementById('nowPlaying').innerText = t.title;
-            this.player.currentTime = this.toSec(t.start);
-            this.player.play();
+        search: function(query) {
+            const term = query.toLowerCase();
+            // Cerca in tutte le tracce e nascondi/mostra in base all'ID univoco
+            this.currentData.tracks.forEach(t => {
+                const card = document.getElementById(`track-${t.id}`);
+                if (card) {
+                    const match = t.title.toLowerCase().includes(term) || t.author.toLowerCase().includes(term);
+                    card.style.display = match ? 'block' : 'none';
+                }
+            });
+            
+            // Nascondi le intestazioni delle sale se non hanno tracce visibili (Opzionale, ma elegante)
+            document.querySelectorAll('.room-group').forEach(group => {
+                const visibleCards = Array.from(group.querySelectorAll('.track-card')).some(c => c.style.display !== 'none');
+                group.querySelector('.room-header').style.display = visibleCards ? 'flex' : 'none';
+            });
         },
 
+        playTrack: function(id) {
+            const t = this.currentData.tracks.find(x => x.id === id);
+            this.activeEndSec = this.toSec(t.end);
+            this.player.currentTime = this.toSec(t.start);
+            this.player.play();
+            document.getElementById('npTitle').textContent = t.title;
+            document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
+            const activeCard = document.getElementById('track-'+id);
+            if(activeCard) activeCard.classList.add('active');
+        },
+
+        togglePlay: function() {
+            if (this.player.paused) this.player.play(); else this.player.pause();
+        },
+
+        setupPlayer: function() {
+            const btn = document.getElementById('playBtn');
+            this.player.onplay = () => btn.innerHTML = '<i class="fas fa-pause"></i>';
+            this.player.onpause = () => btn.innerHTML = '<i class="fas fa-play"></i>';
+            this.player.ontimeupdate = () => {
+                if (this.activeEndSec && this.player.currentTime >= this.activeEndSec) this.player.pause();
+            };
+        },
+
+        openPromptTool: function() { document.getElementById('promptModal').classList.add('active'); },
+        
         openEditor: function(id) {
             const t = this.currentData.tracks.find(x => x.id === id);
-            document.getElementById('editId').value = t.id;
+            document.getElementById('editId').value = id;
             document.getElementById('editTitle').value = t.title;
-            document.getElementById('editAuthor').value = t.author || '';
-            document.getElementById('editRoom').value = t.room || '';
+            document.getElementById('editAuthor').value = t.author;
+            document.getElementById('editRoom').value = t.room || ''; // Carica la sala
             document.getElementById('editImg').value = t.image;
-            this.toggleModal('editModal');
+            document.getElementById('editorModal').classList.add('active');
+        },
+        
+        toggleExplore: function() { document.getElementById('exploreModal').classList.toggle('active'); },
+        closeModals: function() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
+
+        generatePrompt: function() {
+            const title = document.getElementById('pTitle').value || "guida";
+            const text = document.getElementById('pTranscript').value;
+            // Prompt aggiornato per chiedere le Sale
+            const prompt = `Converti il seguente testo in JSON per audioguida. 
+Struttura richiesta: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }.
+Ogni traccia DEVE avere: id, title, author, start, end, image e il nuovo campo "room".
+IMPORTANTE: Per il campo "room", usa la tua conoscenza per capire in quale sala del museo si trova l'opera (es. "Sala del Colosso", "Tribuna", "Gipsoteca").
+Testo da analizzare: ${text}`;
+            navigator.clipboard.writeText(prompt);
+            alert("Prompt con istruzioni sulle SALE copiato!");
         },
 
         saveTrack: function() {
@@ -217,33 +352,20 @@
             const t = this.currentData.tracks.find(x => x.id === id);
             t.title = document.getElementById('editTitle').value;
             t.author = document.getElementById('editAuthor').value;
-            t.room = document.getElementById('editRoom').value;
+            t.room = document.getElementById('editRoom').value; // Salva la sala
             t.image = document.getElementById('editImg').value;
             this.renderGuide(this.currentData);
             this.closeModals();
-        },
-
-        generatePrompt: function() {
-            const title = document.getElementById('pTitle').value || "Museo";
-            const text = document.getElementById('pTranscript').value;
-            const prompt = `Analizza il testo e crea un JSON per audioguida: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }.
-            Per ogni traccia inserisci i campi: id, title, author, start, end, image e il nuovo campo "room".
-            IMPORTANTE: Per il campo "room", cerca di capire dalla tua base di conoscenza in quale sala o area del museo si trova l'opera (es. "Sala del Colosso", "Gipsoteca", "Tribuna del David"). Testo: ${text}`;
-            navigator.clipboard.writeText(prompt);
-            alert("Prompt con gestione sale copiato!");
         },
 
         downloadJson: function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentData, null, 2));
             const a = document.createElement('a'); a.href = dataStr; a.download = "guida.json"; a.click();
         },
-
-        toSec: function(s) { 
-            const p = s.split(':'); 
-            return parseInt(p[0]) * 60 + parseInt(p[1]); 
-        }
+        toSec: function(s) { const p = s.split(':'); return parseInt(p[0])*60 + parseInt(p[1]); }
     };
-</script>
 
+    window.app.init();
+</script>
 </body>
 </html>
