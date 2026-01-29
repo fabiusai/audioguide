@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Audioguide AI Pro 1.0</title>
+    <title>Audioguide AI Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -56,11 +56,10 @@
         .track-card.active { border: 2px solid var(--primary-apple); }
 
         .track-img-container {
-            width: 100%; height: 260px; /* Aumentata per risoluzione maggiore */
+            width: 100%; height: 260px;
             background: #d1d1d6; overflow: hidden;
         }
-        .track-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .track-card:hover .track-img { transform: scale(1.05); }
+        .track-img { width: 100%; height: 100%; object-fit: cover; }
         
         .track-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
         .track-info-text { flex-grow: 1; }
@@ -83,25 +82,26 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* --- EDITOR MODAL (APPLE SHEET STYLE) --- */
+        /* --- MODALS (SHEET STYLE) --- */
         .modal-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
             z-index: 1000; align-items: flex-end;
         }
         .modal-sheet {
-            background: white; width: 100%; border-radius: 20px 20px 0 0;
+            background: white; width: 100%; border-radius: 24px 24px 0 0;
             padding: 25px; transform: translateY(100%); transition: transform 0.3s ease-out;
             max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active { display: flex; }
         .modal-overlay.active .modal-sheet { transform: translateY(0); }
 
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
         .input-group input, .input-group textarea {
-            width: 100%; padding: 12px; border: none; background: #f2f2f7; border-radius: 10px; font-size: 1rem;
+            width: 100%; padding: 14px; border: none; background: #f2f2f7; border-radius: 12px; font-size: 1rem; color: var(--text-dark);
         }
-        .btn-save { background: var(--primary-apple); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 700; margin-top: 10px; }
+        .btn-main { background: var(--primary-apple); color: white; border: none; padding: 16px; width: 100%; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        .btn-secondary { background: #e5e5ea; color: var(--text-dark); margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -110,6 +110,7 @@
     <div class="header-top">
         <h1>Audioguide AI</h1>
         <div style="display: flex; gap: 12px;">
+            <button class="btn-icon edit-mode-only" style="background: #fff9c4;" onclick="window.app.openPromptTool()"><i class="fas fa-sparkles"></i></button>
             <button class="btn-icon" onclick="window.app.toggleExplore()"><i class="fas fa-compass"></i></button>
             <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')"><i class="fas fa-pencil-alt"></i></button>
         </div>
@@ -128,21 +129,31 @@
     <audio id="audioPlayer" style="display:none;"></audio>
 </div>
 
-<div id="editorModal" class="modal-overlay" onclick="window.app.closeEditor()">
+<div id="promptModal" class="modal-overlay" onclick="window.app.closeModals()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div style="width: 40px; height: 5px; background: #ddd; border-radius: 5px; margin: 0 auto 20px;"></div>
+        <h3 style="margin-top:0">✨ Generatore Prompt AI</h3>
+        <div class="input-group"><label>Titolo Guida</label><input type="text" id="pTitle" placeholder="es. Galleria Borghese"></div>
+        <div class="input-group"><label>Testo Sorgente</label><textarea id="pTranscript" rows="5" placeholder="Incolla qui la trascrizione o le note..."></textarea></div>
+        <button class="btn-main" onclick="window.app.generatePrompt()">Copia Prompt per AI</button>
+        <button class="btn-main btn-secondary" onclick="window.app.closeModals()">Chiudi</button>
+    </div>
+</div>
+
+<div id="editorModal" class="modal-overlay" onclick="window.app.closeModals()">
     <div class="modal-sheet" onclick="event.stopPropagation()">
         <div style="width: 40px; height: 5px; background: #ddd; border-radius: 5px; margin: 0 auto 20px;"></div>
         <h3 style="margin-top:0">Modifica Opera</h3>
         <input type="hidden" id="editId">
-        <div class="input-group"><label>URL Immagine (Alta Risoluzione)</label><input type="text" id="editImg"></div>
+        <div class="input-group"><label>Immagine HD (URL)</label><input type="text" id="editImg"></div>
         <div class="input-group"><label>Titolo</label><input type="text" id="editTitle"></div>
         <div class="input-group"><label>Autore</label><input type="text" id="editAuthor"></div>
-        <div class="input-group"><label>Descrizione (Invisibile in card)</label><textarea id="editDesc" rows="3"></textarea></div>
-        <button class="btn-save" onclick="window.app.saveTrack()">Applica Modifiche</button>
-        <button class="edit-mode-only" style="margin-top:10px; width:100%; background:#ff3b30; color:white; border:none; padding:12px; border-radius:12px; font-weight:600;" onclick="window.app.downloadJson()">Esporta JSON Aggiornato</button>
+        <button class="btn-main" onclick="window.app.saveTrack()">Salva Modifiche</button>
+        <button class="btn-main btn-secondary" style="background:#ff3b30; color:white;" onclick="window.app.downloadJson()">Esporta JSON</button>
     </div>
 </div>
 
-<div id="exploreModal" class="modal-overlay" onclick="window.app.toggleExplore()">
+<div id="exploreModal" class="modal-overlay" onclick="window.app.closeModals()">
     <div class="modal-sheet" onclick="event.stopPropagation()">
         <h3 style="margin-top:0">Esplora Guide</h3>
         <div id="guideList"></div>
@@ -153,45 +164,31 @@
     const CATALOG_URL = 'index.json'; 
 
     window.app = {
-        catalog: [],
         currentData: null,
         player: document.getElementById('audioPlayer'),
 
         init: async function() {
-            await this.loadCatalog();
             this.setupPlayer();
-        },
-
-        loadCatalog: async function() {
             try {
                 const res = await fetch(CATALOG_URL);
-                this.catalog = await res.json();
-                this.renderCatalog();
-                this.loadRandom();
+                const catalog = await res.json();
+                this.renderCatalog(catalog);
+                this.fetchGuide(catalog[Math.floor(Math.random()*catalog.length)].url);
             } catch (e) {
-                // Demo fallback se index.json manca
-                this.renderGuide({
-                    title: "Galleria Accademia",
-                    mp3File: "audio.mp3",
-                    tracks: [{ id: 1, title: "Il David", author: "Michelangelo", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }]
-                });
+                this.renderGuide({ title: "Demo", mp3File: "", tracks: [{ id: 1, title: "Esempio", author: "Michelangelo", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }] });
             }
         },
 
-        renderCatalog: function() {
-            document.getElementById('guideList').innerHTML = this.catalog.map(g => `
-                <div style="padding:15px; border-bottom:1px solid #eee; font-weight:600;" onclick="window.app.fetchGuide('${g.url}')">${g.title}</div>
+        renderCatalog: function(cat) {
+            document.getElementById('guideList').innerHTML = cat.map(g => `
+                <div style="padding:18px; border-bottom:1px solid #f2f2f7; font-weight:600; font-size:1.1rem;" onclick="window.app.fetchGuide('${g.url}')">${g.title}</div>
             `).join('');
         },
 
         fetchGuide: async function(url) {
             const res = await fetch(url);
             this.renderGuide(await res.json());
-            this.toggleExplore();
-        },
-
-        loadRandom: function() {
-            if (this.catalog.length) this.fetchGuide(this.catalog[Math.floor(Math.random()*this.catalog.length)].url);
+            this.closeModals();
         },
 
         renderGuide: function(data) {
@@ -199,7 +196,7 @@
             this.player.src = data.mp3File;
             document.getElementById('trackList').innerHTML = data.tracks.map(t => `
                 <div class="track-card" id="track-${t.id}">
-                    <button class="btn-icon edit-mode-only" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(255,255,255,0.8);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
+                    <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
                     <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
                         <img src="${t.image}" class="track-img" onerror="this.src='https://images.unsplash.com/photo-1579546678183-a84ee76d7d02?q=80&w=1200'">
                     </div>
@@ -237,32 +234,43 @@
             };
         },
 
-        // --- EDITOR LOGIC ---
+        // MODALS
+        openPromptTool: function() { document.getElementById('promptModal').classList.add('active'); },
         openEditor: function(id) {
             const t = this.currentData.tracks.find(x => x.id === id);
             document.getElementById('editId').value = id;
             document.getElementById('editTitle').value = t.title;
             document.getElementById('editAuthor').value = t.author;
             document.getElementById('editImg').value = t.image;
-            document.getElementById('editDesc').value = t.desc || '';
             document.getElementById('editorModal').classList.add('active');
         },
-        closeEditor: function() { document.getElementById('editorModal').classList.remove('active'); },
+        toggleExplore: function() { document.getElementById('exploreModal').classList.toggle('active'); },
+        closeModals: function() { 
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); 
+        },
+
+        generatePrompt: function() {
+            const title = document.getElementById('pTitle').value || "questa guida";
+            const text = document.getElementById('pTranscript').value;
+            const prompt = `Analizza questo testo per una audioguida dal titolo "${title}". Genera un file JSON con questa struttura: { "title": "${title}", "mp3File": "NOME_FILE.mp3", "tracks": [ { "id": 1, "title": "Titolo Opera", "author": "Autore", "start": "min:sec", "end": "min:sec", "desc": "Breve descrizione", "image": "URL_IMMAGINE" } ] }. Ecco il testo: ${text}`;
+            navigator.clipboard.writeText(prompt);
+            alert("Prompt copiato! Incollalo in ChatGPT o Gemini.");
+        },
+
         saveTrack: function() {
             const id = parseInt(document.getElementById('editId').value);
             const t = this.currentData.tracks.find(x => x.id === id);
             t.title = document.getElementById('editTitle').value;
             t.author = document.getElementById('editAuthor').value;
             t.image = document.getElementById('editImg').value;
-            t.desc = document.getElementById('editDesc').value;
             this.renderGuide(this.currentData);
-            this.closeEditor();
+            this.closeModals();
         },
+
         downloadJson: function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.currentData, null, 2));
-            const a = document.createElement('a'); a.href = dataStr; a.download = "guida_aggiornata.json"; a.click();
+            const a = document.createElement('a'); a.href = dataStr; a.download = "guida.json"; a.click();
         },
-        toggleExplore: function() { document.getElementById('exploreModal').classList.toggle('active'); },
         toSec: function(s) { const p = s.split(':'); return parseInt(p[0])*60 + parseInt(p[1]); }
     };
 
