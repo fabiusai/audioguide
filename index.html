@@ -169,10 +169,43 @@
 </head>
 <body>
 
+<style>
+    /* Mobile-first: nascondi controlli edit di default */
+    .edit-mode-only { display: none !important; }
+    body.is-editing .edit-mode-only { display: flex !important; }
+    
+    /* Desktop: mostra sempre i controlli edit */
+    @media (min-width: 1024px) {
+        .edit-mode-only { display: flex !important; }
+        .edit-toggle-container { display: none; }
+    }
+
+    /* Card ottimizzate: Immagine protagonista, testo ridotto */
+    .track-card { align-items: stretch; min-height: 120px; }
+    .track-img-container { 
+        width: 120px !important; min-width: 120px !important; height: auto !important; 
+        background: #ddd; display: block !important; 
+    }
+    .track-content { padding: 12px !important; display: flex; flex-direction: column; justify-content: center; }
+    .track-desc { -webkit-line-clamp: 1 !important; font-size: 0.85rem !important; }
+
+    /* Player Bar potenziata per Mobile */
+    .player-bar { padding: 20px; border-top: 1px solid #eee; }
+    .player-controls-main { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 15px; }
+    .btn-player { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-dark); padding: 10px; }
+    .btn-play-pause { background: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    audio { height: 30px; margin-top: 10px; }
+</style>
+
 <header>
     <div class="header-top">
-        <h1>🏛️ AudioGuide AI</h1>
-        <button class="btn-icon" onclick="window.app.openTool()" title="Crea Prompt">✨</button>
+        <h1>🏛️ AudioGuide</h1>
+        <div style="display: flex; gap: 8px;">
+            <button class="btn-icon edit-mode-only" onclick="window.app.openTool()" title="Crea Prompt">✨</button>
+            <div class="edit-toggle-container">
+                <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')" title="Modalità Edit">🛠️</button>
+            </div>
+        </div>
     </div>
     
     <div class="search-bar">
@@ -183,11 +216,11 @@
 
 <div class="file-controls">
     <div class="chip active" onclick="window.app.loadDemo()">📱 Demo Firenze</div>
-    <label class="chip">
+    <label class="chip edit-mode-only">
         📂 Apri JSON
         <input type="file" accept=".json" onchange="window.app.loadLocalJson(this)">
     </label>
-    <div class="chip save-btn" onclick="window.app.downloadJson()">💾 Salva JSON Modificato</div>
+    <div class="chip save-btn edit-mode-only" onclick="window.app.downloadJson()">💾 Salva JSON</div>
 </div>
 
 <div class="container">
@@ -199,8 +232,31 @@
         <div class="np-label">In Riproduzione</div>
         <div id="npTitle" class="np-title">Seleziona una traccia</div>
     </div>
-    <audio id="audioPlayer" controls controlsList="nodownload"></audio>
+    
+    <div class="player-controls-main">
+        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime -= 10">⏪</button>
+        <button class="btn-player btn-play-pause" onclick="window.app.togglePlay()" id="playBtn">▶️</button>
+        <button class="btn-player" onclick="document.getElementById('audioPlayer').currentTime += 10">⏩</button>
+    </div>
+    
+    <audio id="audioPlayer" controlslist="nodownload" style="width:100%"></audio>
 </div>
+
+<script>
+    // Integrazione funzioni player
+    window.app.togglePlay = function() {
+        const p = document.getElementById('audioPlayer');
+        const btn = document.getElementById('playBtn');
+        if (p.paused) { p.play(); btn.textContent = '⏸️'; } 
+        else { p.pause(); btn.textContent = '▶️'; }
+    };
+    // Update button icon on player events
+    document.addEventListener('DOMContentLoaded', () => {
+        const p = document.getElementById('audioPlayer');
+        p.onplay = () => document.getElementById('playBtn').textContent = '⏸️';
+        p.onpause = () => document.getElementById('playBtn').textContent = '▶️';
+    });
+</script>
 
 <div id="toolModal" class="modal-overlay">
     <div class="modal-box">
