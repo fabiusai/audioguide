@@ -1,6 +1,6 @@
 {
   "title": "Galleria dell'Accademia di Firenze",
-  "mp3File": "audio.mp3",
+  "mp3File": "Galleria_Accademia_di_Firenze.mp3",
   "tracks": [
     {
       "id": 1,
@@ -8,16 +8,16 @@
       "author": "Narratore",
       "start": "0:00",
       "end": "0:46",
-      "image": "intro.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Galleria_dell%27Accademia_Florence_entrance.jpg/1200px-Galleria_dell%27Accademia_Florence_entrance.jpg",
       "room": "Ingresso"
     },
     {
       "id": 2,
-      "title": "Ratto delle Sabine",
+      "title": "Ratto delle Sabine (Modello)",
       "author": "Jean de Boulogne (Giambologna)",
       "start": "0:47",
       "end": "1:23",
-      "image": "ratto_sabine.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Giambologna%2C_Rape_of_the_Sabine_Women%2C_Galleria_dell%E2%80%99_Accademia%2C_Florence%2C_Italy.jpg",
       "room": "Sala del Colosso"
     },
     {
@@ -26,7 +26,7 @@
       "author": "Sandro Botticelli",
       "start": "1:29",
       "end": "1:56",
-      "image": "madonna_mare.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Botticelli%2C_madonna_del_Mare.jpg",
       "room": "Sala del Colosso"
     },
     {
@@ -35,7 +35,7 @@
       "author": "Giovanni di Ser Giovanni (Lo Scheggia)",
       "start": "2:00",
       "end": "2:34",
-      "image": "cassone_adimari.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/0/05/Lo_Scheggia%2C_cassone_adimari%2C_1450_ca._02.JPG",
       "room": "Sala del Colosso"
     },
     {
@@ -44,7 +44,7 @@
       "author": "Paolo Uccello",
       "start": "2:40",
       "end": "3:09",
-      "image": "tebaide.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Paolo_uccello%2C_tebaide.jpg",
       "room": "Sala del Colosso"
     },
     {
@@ -53,7 +53,7 @@
       "author": "Domenico Ghirlandaio",
       "start": "3:12",
       "end": "3:43",
-      "image": "santi_ghirlandaio.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Ghirlandaio%2C_Santo_Stefano_tra_i_santi_Jacopo_e_Pietro%2C_accademia.jpg",
       "room": "Sala del Colosso"
     },
     {
@@ -62,7 +62,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "3:48",
       "end": "4:20",
-      "image": "schiavo_giovane.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Michelangelo_buonarroti%2C_Schiavo_giovane%2C_1525-30_ca._06.JPG",
       "room": "Galleria dei Prigioni"
     },
     {
@@ -71,7 +71,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "4:24",
       "end": "4:46",
-      "image": "schiavo_barbuto.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/%27Bearded_Slave%27_by_Michelangelo_-_JBU_02.jpg",
       "room": "Galleria dei Prigioni"
     },
     {
@@ -80,7 +80,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "4:50",
       "end": "5:13",
-      "image": "atlante.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/93/Michelangelo_-_Atlas.jpg",
       "room": "Galleria dei Prigioni"
     },
     {
@@ -89,7 +89,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "5:16",
       "end": "5:39",
-      "image": "schiavo_desta.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f5/AwakeningSlavePrisoner.JPG",
       "room": "Galleria dei Prigioni"
     },
     {
@@ -98,7 +98,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "5:43",
       "end": "6:08",
-      "image": "san_matteo.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Saint_Matthew_by_Michelangelo-Galleria_dell%27Accademia.jpg",
       "room": "Galleria dei Prigioni"
     },
     {
@@ -107,7 +107,7 @@
       "author": "Attribuita a Michelangelo",
       "start": "6:11",
       "end": "6:40",
-      "image": "pieta_palestrina.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Palestrina_Pieta_%28Piet%C3%A0_di_Palestrina%29%2C_Galleria_dell%27Accademia%2C_Florence_%2826678080985%29.jpg",
       "room": "Tribuna"
     },
     {
@@ -116,7 +116,7 @@
       "author": "Michelangelo Buonarroti",
       "start": "6:44",
       "end": "7:20",
-      "image": "david.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/2/24/%27David%27_by_Michelangelo_JBU0001.JPG",
       "room": "Tribuna"
     },
     {
@@ -125,7 +125,7 @@
       "author": "Daniele da Volterra",
       "start": "7:23",
       "end": "7:51",
-      "image": "busto_michelangelo.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/0/04/Daniele_da_volterra%2C_busto_di_michelangelo%2C_1564_ca.jpg",
       "room": "Tribuna"
     },
     {
@@ -134,7 +134,7 @@
       "author": "Lorenzo Bartolini",
       "start": "7:55",
       "end": "8:30",
-      "image": "ammostatore.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Lorenzo_Bartolini-L%27Ammosstatore-Hermitage.jpg",
       "room": "Gipsoteca"
     },
     {
@@ -143,7 +143,7 @@
       "author": "Lorenzo Bartolini",
       "start": "8:33",
       "end": "9:01",
-      "image": "fiducia_dio.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Lorenzo_bartolini%2C_fiducia_in_dio%2C_1833_ca._01.JPG",
       "room": "Gipsoteca"
     },
     {
@@ -152,7 +152,7 @@
       "author": "Pacino di Buonaguida",
       "start": "9:05",
       "end": "9:36",
-      "image": "albero_vita.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/0/00/Pacino_di_buonaguida%2C_albero_della_vita%2C_00.jpg",
       "room": "Sala dei Giotteschi"
     },
     {
@@ -161,7 +161,7 @@
       "author": "Jacopo di Cione",
       "start": "9:40",
       "end": "10:07",
-      "image": "incoronazione_vergine.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/96/24_Jacopo_di_Cione._Incoronazione_della_Vergine_e_santi_%28350x190cm%29_1372-73_Galleria_dell%27Accademia%2C_Florence.jpg",
       "room": "Sala dei Giotteschi"
     },
     {
@@ -170,7 +170,7 @@
       "author": "Antonio Stradivari",
       "start": "10:12",
       "end": "10:41",
-      "image": "viola_medicea.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Tenor_viola_of_the_%22Medici%22_Quintet_1690.jpg",
       "room": "Dipartimento Strumenti Musicali"
     },
     {
@@ -179,7 +179,7 @@
       "author": "Antonio Stradivari",
       "start": "14:52",
       "end": "15:16",
-      "image": "violoncello_mediceo.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Violoncello_of_the_%22Medici%22_Quintet%2C_1690.jpg",
       "room": "Dipartimento Strumenti Musicali"
     },
     {
@@ -188,7 +188,7 @@
       "author": "Bartolomeo Cristofori",
       "start": "15:21",
       "end": "15:47",
-      "image": "spinetta_ovale.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Spinettone_XVIII_s.%2C_Clavicembalo_francese_XVII_s.%2C_Regale_e_clavicembalo_italiano_%28copie%29.JPG",
       "room": "Dipartimento Strumenti Musicali"
     },
     {
@@ -197,7 +197,7 @@
       "author": "Bartolomeo Cristofori",
       "start": "15:53",
       "end": "16:22",
-      "image": "pianoforte_cristofori.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Grand_Piano_MET_129111.jpg",
       "room": "Dipartimento Strumenti Musicali"
     }
   ]
