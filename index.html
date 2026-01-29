@@ -67,8 +67,15 @@
         .track-card:active { transform: scale(0.97); }
         .track-card.active { border: 2px solid var(--primary-apple); }
 
-        .track-img-container { width: 100%; height: 260px; background: #d1d1d6; overflow: hidden; }
-        .track-img { width: 100%; height: 100%; object-fit: cover; }
+        .track-img-container { width: 100%; height: 320px; background: #d1d1d6; overflow: hidden; }
+        
+        /* FIX: Mostra la parte superiore delle immagini verticali */
+        .track-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: top; 
+        }
         
         .track-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
         .track-info-text { flex-grow: 1; }
@@ -185,16 +192,22 @@
                 const res = await fetch(CATALOG_URL);
                 const catalog = await res.json();
                 this.renderCatalog(catalog);
+                // Caricamento casuale all'avvio
                 this.fetchGuide(catalog[Math.floor(Math.random()*catalog.length)].url);
             } catch (e) {
-                this.renderGuide({ title: "Demo", mp3File: "", tracks: [{ id: 1, title: "Esempio", author: "Michelangelo", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }] });
+                // Fallback demo
+                this.renderGuide({ 
+                    title: "Demo", 
+                    mp3File: "", 
+                    tracks: [{ id: 1, title: "Esempio", author: "Autore", start: "00:00", end: "00:30", image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200" }] 
+                });
             }
         },
 
-        // Forza ricaricamento immagini aggiungendo timestamp (Cache Busting)
+        // Cache Busting: aggiunge timestamp per forzare il ricaricamento
         getFreshUrl: function(url) {
             if (!url) return '';
-            if (url.startsWith('data:')) return url; // Non toccare base64
+            if (url.startsWith('data:')) return url;
             const separator = url.includes('?') ? '&' : '?';
             return `${url}${separator}t=${new Date().getTime()}`;
         },
@@ -219,7 +232,7 @@
                 <div class="track-card" id="track-${t.id}">
                     <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
                     <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
-                        <img src="${this.getFreshUrl(t.image)}" class="track-img" onerror="this.src='https://via.placeholder.com/800x600?text=Immagine+non+disponibile'">
+                        <img src="${this.getFreshUrl(t.image)}" class="track-img" onerror="this.src='https://via.placeholder.com/800x1200?text=Immagine+non+disponibile'">
                     </div>
                     <div class="track-content" onclick="window.app.playTrack(${t.id})">
                         <div class="track-info-text">
@@ -279,7 +292,7 @@
         generatePrompt: function() {
             const title = document.getElementById('pTitle').value || "guida";
             const text = document.getElementById('pTranscript').value;
-            const prompt = `Converti in JSON per audioguida: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }. Testo: ${text}`;
+            const prompt = `Analizza questo testo e crea un JSON per audioguida. Struttura: { "title": "${title}", "mp3File": "NOME.mp3", "tracks": [...] }. Testo: ${text}`;
             navigator.clipboard.writeText(prompt);
             alert("Prompt copiato!");
         },
