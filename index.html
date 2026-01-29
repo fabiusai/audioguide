@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Audioguide AI Pro 1.0</title>
+    <title>Audioguide AI Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -20,21 +20,33 @@
         body { 
             margin: 0; font-family: -apple-system, system-ui, sans-serif;
             background-color: var(--background-light); color: var(--text-dark);
-            padding-bottom: 200px; -webkit-font-smoothing: antialiased;
+            padding-bottom: 220px; -webkit-font-smoothing: antialiased;
         }
 
         .edit-mode-only { display: none !important; }
         body.is-editing .edit-mode-only { display: flex !important; }
 
-        /* --- HEADER --- */
-        header {
+        /* --- HEADER & SEARCH --- */
+        .sticky-nav {
+            position: sticky; top: 0; z-index: 100;
             background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
-            padding: 15px 20px; position: sticky; top: 0; z-index: 100;
             border-bottom: 1px solid var(--border-light);
         }
+        header { padding: 15px 20px 10px; }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         h1 { margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
+
+        .search-container { padding: 0 20px 15px; }
+        .search-wrapper {
+            position: relative; background: rgba(118, 118, 128, 0.12);
+            border-radius: 10px; display: flex; align-items: center; padding: 8px 12px;
+        }
+        .search-wrapper i { color: var(--text-light); margin-right: 8px; }
+        .search-wrapper input {
+            border: none; background: transparent; width: 100%; outline: none;
+            font-size: 1rem; color: var(--text-dark);
+        }
 
         .btn-icon {
             background: #e5e5ea; border: none; width: 36px; height: 36px;
@@ -55,17 +67,14 @@
         .track-card:active { transform: scale(0.97); }
         .track-card.active { border: 2px solid var(--primary-apple); }
 
-        .track-img-container {
-            width: 100%; height: 260px;
-            background: #d1d1d6; overflow: hidden;
-        }
+        .track-img-container { width: 100%; height: 260px; background: #d1d1d6; overflow: hidden; }
         .track-img { width: 100%; height: 100%; object-fit: cover; }
         
         .track-content { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
         .track-info-text { flex-grow: 1; }
-        .track-title { font-weight: 700; font-size: 1.1rem; margin: 0; color: var(--text-dark); }
+        .track-title { font-weight: 700; font-size: 1.1rem; margin: 0; }
         .track-author { font-size: 0.85rem; color: var(--text-light); margin-top: 2px; }
-        .track-duration { font-size: 0.8rem; font-weight: 600; color: var(--primary-apple); padding-left: 10px; }
+        .track-duration { font-size: 0.8rem; font-weight: 600; color: var(--primary-apple); }
 
         /* --- PLAYER --- */
         .player-bar {
@@ -74,15 +83,14 @@
             padding: 20px 25px 40px; border-top: 1px solid var(--border-light);
             z-index: 500;
         }
-        .np-title { text-align: center; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; color: var(--text-dark); }
+        .np-title { text-align: center; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
         .player-controls { display: flex; justify-content: center; align-items: center; gap: 35px; }
         .play-btn { 
             width: 65px; height: 65px; background: var(--text-dark); color: white; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* --- MODALS (SHEET STYLE) --- */
+        /* --- MODALS --- */
         .modal-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
             z-index: 1000; align-items: flex-end;
@@ -96,26 +104,33 @@
         .modal-overlay.active .modal-sheet { transform: translateY(0); }
 
         .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; }
         .input-group input, .input-group textarea {
-            width: 100%; padding: 14px; border: none; background: #f2f2f7; border-radius: 12px; font-size: 1rem; color: var(--text-dark);
+            width: 100%; padding: 14px; border: none; background: #f2f2f7; border-radius: 12px; font-size: 1rem;
         }
-        .btn-main { background: var(--primary-apple); color: white; border: none; padding: 16px; width: 100%; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; }
-        .btn-secondary { background: #e5e5ea; color: var(--text-dark); margin-top: 10px; }
+        .btn-main { background: var(--primary-apple); color: white; border: none; padding: 16px; width: 100%; border-radius: 14px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-top">
-        <h1>Audioguide AI</h1>
-        <div style="display: flex; gap: 12px;">
-            <button class="btn-icon edit-mode-only" style="background: #fff9c4;" onclick="window.app.openPromptTool()"><i class="fas fa-sparkles"></i></button>
-            <button class="btn-icon" onclick="window.app.toggleExplore()"><i class="fas fa-compass"></i></button>
-            <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')"><i class="fas fa-pencil-alt"></i></button>
+<div class="sticky-nav">
+    <header>
+        <div class="header-top">
+            <h1>Audioguide AI</h1>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-icon edit-mode-only" style="background: #fff9c4;" onclick="window.app.openPromptTool()"><i class="fas fa-sparkles"></i></button>
+                <button class="btn-icon" onclick="window.app.toggleExplore()"><i class="fas fa-compass"></i></button>
+                <button class="btn-icon" onclick="document.body.classList.toggle('is-editing')"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+        </div>
+    </header>
+    <div class="search-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Cerca opera o autore..." oninput="window.app.search(this.value)">
         </div>
     </div>
-</header>
+</div>
 
 <div class="container" id="trackList"></div>
 
@@ -131,25 +146,22 @@
 
 <div id="promptModal" class="modal-overlay" onclick="window.app.closeModals()">
     <div class="modal-sheet" onclick="event.stopPropagation()">
-        <div style="width: 40px; height: 5px; background: #ddd; border-radius: 5px; margin: 0 auto 20px;"></div>
         <h3 style="margin-top:0">✨ Generatore Prompt AI</h3>
-        <div class="input-group"><label>Titolo Guida</label><input type="text" id="pTitle" placeholder="es. Galleria Borghese"></div>
-        <div class="input-group"><label>Testo Sorgente</label><textarea id="pTranscript" rows="5" placeholder="Incolla qui la trascrizione o le note..."></textarea></div>
-        <button class="btn-main" onclick="window.app.generatePrompt()">Copia Prompt per AI</button>
-        <button class="btn-main btn-secondary" onclick="window.app.closeModals()">Chiudi</button>
+        <div class="input-group"><label>Titolo Guida</label><input type="text" id="pTitle"></div>
+        <div class="input-group"><label>Testo Sorgente</label><textarea id="pTranscript" rows="5"></textarea></div>
+        <button class="btn-main" onclick="window.app.generatePrompt()">Copia Prompt</button>
     </div>
 </div>
 
 <div id="editorModal" class="modal-overlay" onclick="window.app.closeModals()">
     <div class="modal-sheet" onclick="event.stopPropagation()">
-        <div style="width: 40px; height: 5px; background: #ddd; border-radius: 5px; margin: 0 auto 20px;"></div>
         <h3 style="margin-top:0">Modifica Opera</h3>
         <input type="hidden" id="editId">
         <div class="input-group"><label>Immagine HD (URL)</label><input type="text" id="editImg"></div>
         <div class="input-group"><label>Titolo</label><input type="text" id="editTitle"></div>
         <div class="input-group"><label>Autore</label><input type="text" id="editAuthor"></div>
         <button class="btn-main" onclick="window.app.saveTrack()">Salva Modifiche</button>
-        <button class="btn-main btn-secondary" style="background:#ff3b30; color:white;" onclick="window.app.downloadJson()">Esporta JSON</button>
+        <button class="btn-main" style="background:#ff3b30; margin-top:10px;" onclick="window.app.downloadJson()">Esporta JSON</button>
     </div>
 </div>
 
@@ -179,9 +191,17 @@
             }
         },
 
+        // Forza ricaricamento immagini aggiungendo timestamp (Cache Busting)
+        getFreshUrl: function(url) {
+            if (!url) return '';
+            if (url.startsWith('data:')) return url; // Non toccare base64
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}t=${new Date().getTime()}`;
+        },
+
         renderCatalog: function(cat) {
             document.getElementById('guideList').innerHTML = cat.map(g => `
-                <div style="padding:18px; border-bottom:1px solid #f2f2f7; font-weight:600; font-size:1.1rem;" onclick="window.app.fetchGuide('${g.url}')">${g.title}</div>
+                <div style="padding:18px; border-bottom:1px solid #f2f2f7; font-weight:600;" onclick="window.app.fetchGuide('${g.url}')">${g.title}</div>
             `).join('');
         },
 
@@ -194,11 +214,12 @@
         renderGuide: function(data) {
             this.currentData = data;
             this.player.src = data.mp3File;
-            document.getElementById('trackList').innerHTML = data.tracks.map(t => `
+            const container = document.getElementById('trackList');
+            container.innerHTML = data.tracks.map(t => `
                 <div class="track-card" id="track-${t.id}">
                     <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
                     <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
-                        <img src="${t.image}" class="track-img" onerror="this.src='https://images.unsplash.com/photo-1579546678183-a84ee76d7d02?q=80&w=1200'">
+                        <img src="${this.getFreshUrl(t.image)}" class="track-img" onerror="this.src='https://via.placeholder.com/800x600?text=Immagine+non+disponibile'">
                     </div>
                     <div class="track-content" onclick="window.app.playTrack(${t.id})">
                         <div class="track-info-text">
@@ -209,6 +230,15 @@
                     </div>
                 </div>
             `).join('');
+        },
+
+        search: function(query) {
+            const term = query.toLowerCase();
+            const cards = document.querySelectorAll('.track-card');
+            this.currentData.tracks.forEach((t, idx) => {
+                const match = t.title.toLowerCase().includes(term) || t.author.toLowerCase().includes(term);
+                cards[idx].style.display = match ? 'block' : 'none';
+            });
         },
 
         playTrack: function(id) {
@@ -234,7 +264,6 @@
             };
         },
 
-        // MODALS
         openPromptTool: function() { document.getElementById('promptModal').classList.add('active'); },
         openEditor: function(id) {
             const t = this.currentData.tracks.find(x => x.id === id);
@@ -245,16 +274,14 @@
             document.getElementById('editorModal').classList.add('active');
         },
         toggleExplore: function() { document.getElementById('exploreModal').classList.toggle('active'); },
-        closeModals: function() { 
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); 
-        },
+        closeModals: function() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
 
         generatePrompt: function() {
-            const title = document.getElementById('pTitle').value || "questa guida";
+            const title = document.getElementById('pTitle').value || "guida";
             const text = document.getElementById('pTranscript').value;
-            const prompt = `Analizza questo testo per una audioguida dal titolo "${title}". Genera un file JSON con questa struttura: { "title": "${title}", "mp3File": "NOME_FILE.mp3", "tracks": [ { "id": 1, "title": "Titolo Opera", "author": "Autore", "start": "min:sec", "end": "min:sec", "desc": "Breve descrizione", "image": "URL_IMMAGINE" } ] }. Ecco il testo: ${text}`;
+            const prompt = `Converti in JSON per audioguida: { "title": "${title}", "mp3File": "audio.mp3", "tracks": [...] }. Testo: ${text}`;
             navigator.clipboard.writeText(prompt);
-            alert("Prompt copiato! Incollalo in ChatGPT o Gemini.");
+            alert("Prompt copiato!");
         },
 
         saveTrack: function() {
