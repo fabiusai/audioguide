@@ -1,0 +1,204 @@
+{
+  "title": "Galleria dell'Accademia di Firenze",
+  "mp3File": "audio.mp3",
+  "tracks": [
+    {
+      "id": 1,
+      "title": "Introduzione",
+      "author": "Narratore",
+      "start": "0:00",
+      "end": "0:46",
+      "image": "intro.jpg",
+      "room": "Ingresso"
+    },
+    {
+      "id": 2,
+      "title": "Ratto delle Sabine",
+      "author": "Jean de Boulogne (Giambologna)",
+      "start": "0:47",
+      "end": "1:23",
+      "image": "ratto_sabine.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 3,
+      "title": "Madonna del Mare",
+      "author": "Sandro Botticelli",
+      "start": "1:29",
+      "end": "1:56",
+      "image": "madonna_mare.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 4,
+      "title": "Cassone Adimari",
+      "author": "Giovanni di Ser Giovanni (Lo Scheggia)",
+      "start": "2:00",
+      "end": "2:34",
+      "image": "cassone_adimari.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 5,
+      "title": "Tebaide",
+      "author": "Paolo Uccello",
+      "start": "2:40",
+      "end": "3:09",
+      "image": "tebaide.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 6,
+      "title": "Santi Stefano, Giacomo e Pietro",
+      "author": "Domenico Ghirlandaio",
+      "start": "3:12",
+      "end": "3:43",
+      "image": "santi_ghirlandaio.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 7,
+      "title": "Schiavo Giovane",
+      "author": "Michelangelo Buonarroti",
+      "start": "3:48",
+      "end": "4:20",
+      "image": "schiavo_giovane.jpg",
+      "room": "Galleria dei Prigioni"
+    },
+    {
+      "id": 8,
+      "title": "Schiavo Barbuto",
+      "author": "Michelangelo Buonarroti",
+      "start": "4:24",
+      "end": "4:46",
+      "image": "schiavo_barbuto.jpg",
+      "room": "Galleria dei Prigioni"
+    },
+    {
+      "id": 9,
+      "title": "Atlante",
+      "author": "Michelangelo Buonarroti",
+      "start": "4:50",
+      "end": "5:13",
+      "image": "atlante.jpg",
+      "room": "Galleria dei Prigioni"
+    },
+    {
+      "id": 10,
+      "title": "Schiavo che si desta",
+      "author": "Michelangelo Buonarroti",
+      "start": "5:16",
+      "end": "5:39",
+      "image": "schiavo_desta.jpg",
+      "room": "Galleria dei Prigioni"
+    },
+    {
+      "id": 11,
+      "title": "San Matteo",
+      "author": "Michelangelo Buonarroti",
+      "start": "5:43",
+      "end": "6:08",
+      "image": "san_matteo.jpg",
+      "room": "Galleria dei Prigioni"
+    },
+    {
+      "id": 12,
+      "title": "Pietà di Palestrina",
+      "author": "Attribuita a Michelangelo",
+      "start": "6:11",
+      "end": "6:40",
+      "image": "pieta_palestrina.jpg",
+      "room": "Tribuna"
+    },
+    {
+      "id": 13,
+      "title": "David",
+      "author": "Michelangelo Buonarroti",
+      "start": "6:44",
+      "end": "7:20",
+      "image": "david.jpg",
+      "room": "Tribuna"
+    },
+    {
+      "id": 14,
+      "title": "Busto di Michelangelo",
+      "author": "Daniele da Volterra",
+      "start": "7:23",
+      "end": "7:51",
+      "image": "busto_michelangelo.jpg",
+      "room": "Tribuna"
+    },
+    {
+      "id": 15,
+      "title": "L'Ammostatore",
+      "author": "Lorenzo Bartolini",
+      "start": "7:55",
+      "end": "8:30",
+      "image": "ammostatore.jpg",
+      "room": "Gipsoteca"
+    },
+    {
+      "id": 16,
+      "title": "Fiducia in Dio",
+      "author": "Lorenzo Bartolini",
+      "start": "8:33",
+      "end": "9:01",
+      "image": "fiducia_dio.jpg",
+      "room": "Gipsoteca"
+    },
+    {
+      "id": 17,
+      "title": "Albero della Vita",
+      "author": "Pacino di Buonaguida",
+      "start": "9:05",
+      "end": "9:36",
+      "image": "albero_vita.jpg",
+      "room": "Sala dei Giotteschi"
+    },
+    {
+      "id": 18,
+      "title": "Incoronazione della Vergine",
+      "author": "Jacopo di Cione",
+      "start": "9:40",
+      "end": "10:07",
+      "image": "incoronazione_vergine.jpg",
+      "room": "Sala dei Giotteschi"
+    },
+    {
+      "id": 19,
+      "title": "Viola Medicea",
+      "author": "Antonio Stradivari",
+      "start": "10:12",
+      "end": "10:41",
+      "image": "viola_medicea.jpg",
+      "room": "Dipartimento Strumenti Musicali"
+    },
+    {
+      "id": 20,
+      "title": "Violoncello Mediceo",
+      "author": "Antonio Stradivari",
+      "start": "14:52",
+      "end": "15:16",
+      "image": "violoncello_mediceo.jpg",
+      "room": "Dipartimento Strumenti Musicali"
+    },
+    {
+      "id": 21,
+      "title": "Spinetta Ovale",
+      "author": "Bartolomeo Cristofori",
+      "start": "15:21",
+      "end": "15:47",
+      "image": "spinetta_ovale.jpg",
+      "room": "Dipartimento Strumenti Musicali"
+    },
+    {
+      "id": 22,
+      "title": "Pianoforte di Cristofori",
+      "author": "Bartolomeo Cristofori",
+      "start": "15:53",
+      "end": "16:22",
+      "image": "pianoforte_cristofori.jpg",
+      "room": "Dipartimento Strumenti Musicali"
+    }
+  ]
+}
