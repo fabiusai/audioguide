@@ -1,5 +1,4 @@
 [
   {"id": "firenze_01", "title": "Galleria dell'Accademia", "url": "Galleria_Accademia.json"},
-  {"id": "firenze_02", "title": "Galleria dell'Accademia 2", "url": "Galleria_Accademia.json"},
-  {"id": "firenze_03", "title": "Galleria dell'Accademia test", "url": "test.json"}
+  {"id": "firenze_02", "title": "Galleria dell'Accademia - Sale delle pitture", "url": "Galleria_Accademia_Pittura.json"}
 ]
