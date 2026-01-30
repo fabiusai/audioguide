@@ -342,7 +342,12 @@ Fine introduzione
             container.innerHTML = Object.keys(rooms).map(roomName => `
                 <div class="room-group">
                     <div class="room-header"><i class="fas fa-map-marker-alt"></i> ${roomName}</div>
-                    ${rooms[roomName].map(t => `
+                    ${rooms[roomName].map(t => {
+                        // Calcolo durata
+                        const sec = this.toSec(t.end) - this.toSec(t.start);
+                        const duration = Math.floor(sec / 60) + ":" + (sec % 60).toString().padStart(2, '0');
+                        
+                        return `
                         <div class="track-card" id="track-${t.id}">
                             <button class="btn-icon edit-mode-only" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(255,255,255,0.9);" onclick="window.app.openEditor(${t.id})"><i class="fas fa-pen"></i></button>
                             <div class="track-img-container" onclick="window.app.playTrack(${t.id})">
@@ -356,10 +361,10 @@ Fine introduzione
                                         ${t.room ? `<span class="badge-room" style="margin-left:8px;">${t.room}</span>` : ''}
                                     </div>
                                 </div>
-                                <div class="track-duration">${t.start}</div>
+                                <div class="track-duration">${duration}</div>
                             </div>
                         </div>
-                    `).join('')}
+                    `}).join('')}
                 </div>
             `).join('');
         },
