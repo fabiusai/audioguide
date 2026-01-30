@@ -1,6 +1,6 @@
 {
   "title": "Galleria dell'Accademia di Firenze: le sale della pittura",
-  "mp3File": "aGalleria_Accademia_pittura.mp3",
+  "mp3File": "Galleria_Accademia_pittura.mp3",
   "tracks": [
     {
       "id": 1,
@@ -8,7 +8,7 @@
       "author": "AA.VV.",
       "start": "0:00",
       "end": "0:54",
-      "image": "introduzione.jpg",
+      "image": "https://www.artapartofculture.net/new/wp-content/uploads/2022/01/041-Al-centro-Jacopo-di-Cione-Niccolo%CC%80-di-Tommaso-Simone-di-Lapo-Incoronazione-della-Vergine-pittura-su-tavola-1372-1373-foto-Guido-Cozzi.jpg",
       "room": "Sale della pittura"
     },
     {
@@ -17,7 +17,7 @@
       "author": "Maestro della Maddalena",
       "start": "0:54",
       "end": "2:49",
-      "image": "maddalena.jpg",
+      "image": "https://www.galleriaaccademiafirenze.it/wp-content/uploads/2021/06/Thumb-1890-8466-Maestro-della-Maddalena-Santa-Maria-Maddalena-ph-HALTADEFINIZIONE-1.jpg",
       "room": "Sala del Duecento e del primo Trecento"
     },
     {
@@ -26,7 +26,7 @@
       "author": "Pacino di Buonaguida",
       "start": "2:49",
       "end": "4:32",
-      "image": "albero_vita.jpg",
+      "image": "https://lh5.googleusercontent.com/tCCN94pkFo-e50VulZx7dXslJ3bgb-BnNrrMIr4PJ9zJvX7u_kOz-zaEBxKtuT9Q2qwmNvJQa32whjxD7asVt-494Nc0uUYcy8nL8E5cDOiHP-UnY30P77cx50DAf1AUP_N1rF2U8yXFzmVhubOSYtdC696-RLweXQMItNVXD-y6WRB0pmWTw4ae2w",
       "room": "Sala del Duecento e del primo Trecento"
     },
     {
@@ -35,7 +35,7 @@
       "author": "Taddeo Gaddi",
       "start": "4:32",
       "end": "6:17",
-      "image": "formelle_gaddi.jpg",
+      "image": "https://www.finestresullarte.info/rivista/immagini/2024/fn/galleria-accademia-firenze-pannelli-taddeo-gaddi.jpg",
       "room": "Sala dei Giotteschi"
     },
     {
@@ -44,7 +44,7 @@
       "author": "Bernardo Daddi",
       "start": "6:17",
       "end": "8:03",
-      "image": "crocifisso_daddi.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/93/Bernardo_daddi%2C_crocifisso_sagomato.jpg",
       "room": "Sala dei Giotteschi"
     },
     {
@@ -53,7 +53,7 @@
       "author": "Andrea Orcagna",
       "start": "8:03",
       "end": "9:50",
-      "image": "pentecoste_orcagna.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Orcagna%2C_pentecoste.jpg",
       "room": "Sala degli Orcagna"
     },
     {
@@ -62,7 +62,7 @@
       "author": "Nardo di Cione",
       "start": "9:50",
       "end": "11:12",
-      "image": "trittico_trinita.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Nardo_di_cione%2C_trittico_del_thronum_gratiae_2.jpg/500px-Nardo_di_cione%2C_trittico_del_thronum_gratiae_2.jpg",
       "room": "Sala degli Orcagna"
     }
   ]
