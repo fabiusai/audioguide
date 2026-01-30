@@ -1,59 +1,68 @@
 {
-  "title": "Galleria dell'Accademia Sale della pittura",
-  "mp3File": "Galleria_Accademia_pittura.mp3",
+  "title": "Galleria dell'Accademia di Firenze: le sale della pittura",
+  "mp3File": "aGalleria_Accademia_pittura.mp3",
   "tracks": [
     {
       "id": 1,
-      "title": "Introduzione alle Sale della Pittura",
-      "author": null,
+      "title": "Introduzione",
+      "author": "AA.VV.",
       "start": "0:00",
-      "end": "0:50",
+      "end": "0:54",
       "image": "introduzione.jpg",
-      "room": "Sala del Colosso"
+      "room": "Sale della pittura"
     },
     {
       "id": 2,
       "title": "Santa Maria Maddalena e otto storie della sua vita",
       "author": "Maestro della Maddalena",
-      "start": "0:51",
-      "end": "2:37",
+      "start": "0:54",
+      "end": "2:49",
       "image": "maddalena.jpg",
       "room": "Sala del Duecento e del primo Trecento"
     },
     {
       "id": 3,
-      "title": "Annuncio: Pentecoste di Andrea Orcagna",
-      "author": "Andrea Orcagna",
-      "start": "2:38",
-      "end": "2:43",
-      "image": "titolo_pentecoste.jpg",
-      "room": "Sala degli Orcagna"
+      "title": "Albero della vita",
+      "author": "Pacino di Buonaguida",
+      "start": "2:49",
+      "end": "4:32",
+      "image": "albero_vita.jpg",
+      "room": "Sala del Duecento e del primo Trecento"
     },
     {
       "id": 4,
-      "title": "Descrizione: Pentecoste",
-      "author": "Andrea Orcagna",
-      "start": "2:44",
-      "end": "4:11",
-      "image": "pentecoste_dettaglio.jpg",
-      "room": "Sala degli Orcagna"
+      "title": "Formelle dell'armadio della sacrestia di Santa Croce",
+      "author": "Taddeo Gaddi",
+      "start": "4:32",
+      "end": "6:17",
+      "image": "formelle_gaddi.jpg",
+      "room": "Sala dei Giotteschi"
     },
     {
       "id": 5,
-      "title": "Annuncio: Trittico della Trinità e Santi",
-      "author": "Nardo di Cione",
-      "start": "4:12",
-      "end": "4:17",
-      "image": "titolo_trittico.jpg",
-      "room": "Sala degli Orcagna"
+      "title": "Crocifisso sagomato",
+      "author": "Bernardo Daddi",
+      "start": "6:17",
+      "end": "8:03",
+      "image": "crocifisso_daddi.jpg",
+      "room": "Sala dei Giotteschi"
     },
     {
       "id": 6,
-      "title": "Descrizione: Trittico della Trinità e Santi",
+      "title": "Pentecoste",
+      "author": "Andrea Orcagna",
+      "start": "8:03",
+      "end": "9:50",
+      "image": "pentecoste_orcagna.jpg",
+      "room": "Sala degli Orcagna"
+    },
+    {
+      "id": 7,
+      "title": "Trittico della Trinità e Santi",
       "author": "Nardo di Cione",
-      "start": "4:18",
-      "end": "5:28",
-      "image": "trittico_dettaglio.jpg",
+      "start": "9:50",
+      "end": "11:12",
+      "image": "trittico_trinita.jpg",
       "room": "Sala degli Orcagna"
     }
   ]
