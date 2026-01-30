@@ -1,0 +1,60 @@
+{
+  "title": "Galleria dell'Accademia Sale della pittura",
+  "mp3File": "Galleria_Accademia_pittura.mp3",
+  "tracks": [
+    {
+      "id": 1,
+      "title": "Introduzione alle Sale della Pittura",
+      "author": null,
+      "start": "0:00",
+      "end": "0:50",
+      "image": "introduzione.jpg",
+      "room": "Sala del Colosso"
+    },
+    {
+      "id": 2,
+      "title": "Santa Maria Maddalena e otto storie della sua vita",
+      "author": "Maestro della Maddalena",
+      "start": "0:51",
+      "end": "2:37",
+      "image": "maddalena.jpg",
+      "room": "Sala del Duecento e del primo Trecento"
+    },
+    {
+      "id": 3,
+      "title": "Annuncio: Pentecoste di Andrea Orcagna",
+      "author": "Andrea Orcagna",
+      "start": "2:38",
+      "end": "2:43",
+      "image": "titolo_pentecoste.jpg",
+      "room": "Sala degli Orcagna"
+    },
+    {
+      "id": 4,
+      "title": "Descrizione: Pentecoste",
+      "author": "Andrea Orcagna",
+      "start": "2:44",
+      "end": "4:11",
+      "image": "pentecoste_dettaglio.jpg",
+      "room": "Sala degli Orcagna"
+    },
+    {
+      "id": 5,
+      "title": "Annuncio: Trittico della Trinità e Santi",
+      "author": "Nardo di Cione",
+      "start": "4:12",
+      "end": "4:17",
+      "image": "titolo_trittico.jpg",
+      "room": "Sala degli Orcagna"
+    },
+    {
+      "id": 6,
+      "title": "Descrizione: Trittico della Trinità e Santi",
+      "author": "Nardo di Cione",
+      "start": "4:18",
+      "end": "5:28",
+      "image": "trittico_dettaglio.jpg",
+      "room": "Sala degli Orcagna"
+    }
+  ]
+}
