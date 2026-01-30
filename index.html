@@ -140,7 +140,7 @@
 <div class="sticky-nav">
     <header>
         <div class="header-top">
-            <h1>Audioguide AI</h1>
+            <h1>Audioguide AI <span style="font-size:0.5em; opacity:0.6; vertical-align:middle; background:#eee; padding:2px 5px; border-radius:4px;">v1.1</span></h1>
             <div style="display: flex; gap: 12px;">
                 <button class="btn-icon edit-mode-only" style="background: #fff9c4;" onclick="window.app.openPromptTool()"><i class="fas fa-sparkles"></i></button>
                 <button class="btn-icon" onclick="window.app.toggleExplore()"><i class="fas fa-compass"></i></button>
@@ -173,12 +173,12 @@
         <h3 style="margin-top:0">✨ AI Studio</h3>
         
         <div style="display:flex; gap:10px; margin-bottom:20px; background:#f2f2f7; padding:4px; border-radius:12px;">
-            <button onclick="window.app.switchTab('create')" id="tabCreate" style="flex:1; border:none; background:white; padding:10px; border-radius:9px; font-weight:700; box-shadow:0 2px 5px rgba(0,0,0,0.05); cursor:pointer;">1. Crea Testi</button>
+            <button onclick="window.app.switchTab('create')" id="tabCreate" style="flex:1; border:none; background:white; padding:10px; border-radius:9px; font-weight:700; box-shadow:0 2px 5px rgba(0,0,0,0.05); cursor:pointer;">1. Scrivi Testi</button>
             <button onclick="window.app.switchTab('extract')" id="tabExtract" style="flex:1; border:none; background:transparent; padding:10px; border-radius:9px; font-weight:700; color:#8e8e93; cursor:pointer;">2. Estrai JSON</button>
         </div>
 
         <div id="viewCreate">
-            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Genera i testi per la guida. I marcatori assicureranno una lettura TTS corretta.</p>
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Genera i testi con i marcatori corretti ("Titolo opera", "Fine descrizione") per il TTS.</p>
             <div class="input-group"><label>Argomento / Museo</label><input type="text" id="gTopic" placeholder="es. Galleria Palatina"></div>
             <div class="input-group"><label>Stile & Lunghezza</label>
                 <select id="gStyle" style="width:100%; padding:14px; border:none; background:#f2f2f7; border-radius:12px; font-size:1rem;">
@@ -187,12 +187,12 @@
                     <option value="molto dettagliato e accademico (circa 600 parole per opera)">Lungo (Approfondito)</option>
                 </select>
             </div>
-            <div class="input-group"><label>Elenco Opere (Opzionale)</label><textarea id="gList" rows="3" placeholder="Elenca le opere o lascia vuoto per far scegliere all'AI..."></textarea></div>
+            <div class="input-group"><label>Elenco Opere (Opzionale)</label><textarea id="gList" rows="3" placeholder="Elenca le opere o lascia vuoto..."></textarea></div>
             <button class="btn-main" onclick="window.app.generateScript()">Copia Prompt Scrittura</button>
         </div>
 
         <div id="viewExtract" style="display:none;">
-            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Trasforma la trascrizione audio (con timestamp) nel JSON finale.</p>
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Incolla qui la trascrizione di Turboscribe (con i timestamp) per generare il JSON finale.</p>
             <div class="input-group"><label>Titolo Guida</label><input type="text" id="pTitle"></div>
             <div class="input-group"><label>Testo Sorgente (Turboscribe)</label><textarea id="pTranscript" rows="5"></textarea></div>
             <button class="btn-main" onclick="window.app.generatePrompt()">Copia Prompt JSON</button>
@@ -200,7 +200,7 @@
     </div>
 </div>
 <script>
-    // Inietta le funzioni per la nuova modale al caricamento
+    // Iniezione funzioni AI Studio al caricamento
     window.addEventListener('load', () => {
         window.app.switchTab = function(mode) {
             const create = mode === 'create';
@@ -223,25 +223,43 @@
             const style = document.getElementById('gStyle').value;
             const list = document.getElementById('gList').value;
             
-            const prompt = `Agisci come esperto creatore di audioguide museali. Scrivi i testi per: ${topic}.
-Stile richiesto: ${style}.
-${list ? 'Opere da trattare: ' + list : 'Scegli tu le opere principali e più significative.'}
+            const prompt = `Agisci come esperto creatore di audioguide. Scrivi i testi per: ${topic}.
+Stile: ${style}.
+${list ? 'Opere richieste: ' + list : 'Seleziona le opere principali.'}
 
-IMPORTANTE: FORMATTAZIONE PER SINTESI VOCALE
-Usa ESATTAMENTE questi marcatori testuali. Non usare markdown (niente grassetti), solo testo puro.
-Struttura ogni opera così:
+IMPORTANTE: FORMATTAZIONE RIGIDA PER TTS E PARSING
+Non usare Markdown (niente grassetti o elenchi puntati). Usa testo puro.
+Devi usare ESATTAMENTE questi marcatori testuali per permettere al software di tagliare l'audio.
 
-Inizio Traccia.
-Sala: [Nome della Sala]
-Titolo: [Titolo dell'Opera]
-Autore: [Nome dell'Autore]
-[Testo descrittivo dell'opera...]
-Fine Traccia.
+Struttura OBBLIGATORIA per ogni opera:
 
-Assicurati di ripetere "Inizio Traccia." e "Fine Traccia." per ogni singola opera.`;
+1. Se cambia la sala rispetto all'opera precedente, scrivi:
+Sala [Nome della Sala]
+
+2. Poi inizia l'opera con questi due marcatori precisi:
+Titolo opera [Titolo esatto]
+Autore dell'opera [Nome Autore]
+
+3. [Inserisci qui il testo descrittivo dell'opera...]
+
+4. Chiudi l'opera ESATTAMENTE così:
+Fine descrizione [Titolo] di [Autore]
+
+Esempio corretto:
+Sala del Colosso
+Titolo opera Ratto delle Sabine
+Autore dell'opera Giambologna
+Questa statua rappresenta...
+Fine descrizione Ratto delle Sabine di Giambologna
+
+Inizia e finisci l'intera guida con:
+Introduzione
+[Testo intro]
+Fine introduzione
+...opere...`;
             
             navigator.clipboard.writeText(prompt);
-            alert("Prompt di Scrittura copiato!");
+            alert("Prompt copiato! Incollalo nella tua AI preferita.");
         };
     });
 </script>
